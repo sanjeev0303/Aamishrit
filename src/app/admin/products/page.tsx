@@ -1,14 +1,20 @@
-import React from 'react'
+import { onAuthenticateUser } from "@/actions/user"
+import { redirect } from "next/navigation"
+import ProductManagement from "./_components/product-management"
 
-const ProductPage = () => {
-  return (
 
-   <>
-   <div>
-    <h1 className='text-2xl md:text-3xl font-semibold'>Products</h1>
-   </div>
-   </>
-  )
+export const metadata = {
+  title: "Product Management | Admin Dashboard",
+  description: "Manage products of your e-commerce platform",
 }
 
-export default ProductPage
+export default async function ProductsPage() {
+//   const session = await onAuthenticateUser()
+
+//   // Check if user is authenticated and is an admin
+//   if (!session || session?.user?.role !== "ADMIN") {
+//     redirect("/sign-in")
+//   }
+
+  return <ProductManagement />
+}

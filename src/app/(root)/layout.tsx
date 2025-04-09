@@ -1,13 +1,25 @@
+import { onAuthenticateUser } from '@/actions/user'
 import Footer from '@/components/global/footer'
 import NavigationBar from '@/components/global/navigation'
+import { redirect } from 'next/navigation'
 import React from 'react'
+import { Toaster } from 'sonner'
 
-const RootLayout = ({children}: {children: React.ReactNode}) => {
-  return (
+const RootLayout = async ({children}: {children: React.ReactNode}) => {
+
+    const auth = await onAuthenticateUser()
+
+    if (!auth?.user) {
+        redirect('/sign-in')
+    }
+
+    return (
     <div className='select-none relative'>
-    <NavigationBar />
+    <NavigationBar user={auth.user} />
+    <main className='mt-16'>
     {children}
-
+    <Toaster />
+    </main>
   </div>
   )
 }

@@ -24,13 +24,21 @@ import Link from "next/link";
 import React from "react";
 import { NavigationMenuDemo } from "./navigation-menu";
 import UserButton from "./use-button";
+import { User } from "@prisma/client";
 
-const NavigationBar = () => {
+
+
+type NavigationBarProps = {
+    user: User
+}
+
+
+const NavigationBar = ({user}: NavigationBarProps) => {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
 
   return (
-    <div>
+    <div className="bg-gradient-to-r from-[#8B5A2B] to-[#A67C52] shadow-md">
       {isMobile || isTablet ? (
         <div className="fixed top-0 z-10 w-full flex justify-between sm:landscape:pt-4 px-4 py-2 pt-4 bg-gradient-to-r from-[#8B5A2B] to-[#A67C52] shadow-md">
           <div>
@@ -105,7 +113,7 @@ const NavigationBar = () => {
          <div className="flex gap-8 items-center">
          <NavigationMenuDemo />
          <div className="flex gap-5 items-center">
-            <UserButton />
+            <UserButton user={user} />
             <Link href={"/cart"}>
             <ShoppingCartIcon className="w-7 h-7" />
             </Link>

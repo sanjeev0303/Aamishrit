@@ -11,7 +11,7 @@ const aboutItems = [
     description:
       "Our herbal teas are carefully crafted blends of premium herbs, flowers, and spices, sourced from organic farms around the world. Each blend is designed to provide specific wellness benefits, from calming relaxation to immune support. We ensure that all our teas are free from artificial flavors and preservatives, offering you a pure and natural experience with every sip.",
     image:
-      "https://images.unsplash.com/photo-1741851374411-9528e6d2f33f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzMnx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1591189863381-eb96afe5b841?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: "jaggery",
@@ -19,7 +19,7 @@ const aboutItems = [
     description:
       "Our jaggery is a natural sweetener made from concentrated sugarcane juice, without the use of chemicals in processing. Rich in minerals like iron, magnesium, and potassium, it's a healthier alternative to refined sugar. We source our jaggery from sustainable farms that use traditional methods to preserve its nutritional value and distinctive caramel-like flavor that enhances any dish or beverage.",
     image:
-      "https://images.unsplash.com/photo-1742855751015-5bda25456249?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0fHx8ZW58MHx8fHx8",
+      "https://img.freepik.com/free-photo/healthy-jaggery-still-life-arrangement_23-2149161545.jpg?t=st=1743764792~exp=1743768392~hmac=0bf22047bf273ec61c643ea1638e476ca6481973e6341f050a26db474de70bb0&w=1380",
   },
   {
     id: "cookies",
@@ -27,7 +27,7 @@ const aboutItems = [
     description:
       "Our artisanal cookies are baked with love using organic, whole-food ingredients. We prioritize nutrition without compromising on taste, using ancient grains like millet and natural sweeteners like our own jaggery. Each cookie is crafted in small batches to ensure quality and freshness, offering you a guilt-free indulgence that's perfect for any time of day.",
     image:
-      "https://images.unsplash.com/photo-1742943679521-f4736500a471?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8",
+      "https://images.unsplash.com/photo-1530751127259-074b0cdc0469?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 

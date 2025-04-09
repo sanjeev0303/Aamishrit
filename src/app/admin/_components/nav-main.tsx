@@ -33,16 +33,16 @@ export function NavMain({
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton onClick={(event) => {
+            <SidebarMenuItem key={item.title} >
+              <SidebarMenuButton className="mt-3" onClick={(event) => {
                 router.push(`${item.url}`)
                 {
                     isMobile && toggleSidebar()
                 }
 
               }} tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+                {item.icon && <item.icon className="w-7 h-7 mr-5" />}
+                <span className="text-md font-medium text-gray-700">{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

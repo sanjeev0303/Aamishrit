@@ -12,12 +12,11 @@ import Link from 'next/link'
 import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import { User2 } from 'lucide-react'
+import { User } from '@prisma/client'
 
 
 
-const UserButton = () => {
-
-    const { user } = useUser()
+const UserButton = ({user}: {user: User}) => {
 
   return (
     <div>
@@ -27,7 +26,7 @@ const UserButton = () => {
         user ? (
             <div className=' w-8 h-8 overflow-hidden rounded-full'>
                 <Image
-                src={user.imageUrl}
+                src={user.profileImage || ""}
                 alt="User Profile"
                 width={50}
                 height={50}
@@ -45,7 +44,7 @@ const UserButton = () => {
     <DropdownMenuLabel className='text-[#E6D5C1]'>
         {
             user ? (
-                <div>{`${user.firstName} ${user.lastName}`}</div>
+                <div>{user.name}</div>
             ):(
                 <div>MY Account</div>
             )

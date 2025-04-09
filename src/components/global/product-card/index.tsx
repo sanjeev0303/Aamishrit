@@ -18,7 +18,7 @@ type ProductCardProps = {
   name: string;
   photo: string;
   price: number;
-  stock: number;
+  stock?: number;
   handler?: () => void;
 };
 

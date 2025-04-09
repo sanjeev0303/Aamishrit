@@ -11,7 +11,7 @@ import ShopSection from "./_components/shop";
 const AdminPage = () => {
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col lg:mt-18 items-center w-full">
         <HeroImage />
         <ShopSection />
         <ProductShowcase />

@@ -10,21 +10,21 @@ const categories = [
     name: "Herbal Tea",
     description: "Soothing blends for wellness and relaxation",
     image: "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aGVyYmFsJTIwdGVhfGVufDB8fDB8fHww",
-    link: "/shop/herbal-tea",
+    link: "/category/herbal-tea",
   },
   {
     id: "jaggery",
     name: "Jaggery",
     description: "Natural sweeteners with rich nutrients",
     image: "/jaggery.webp",
-    link: "/shop/jaggrey",
+    link: "/category/jaggery",
   },
   {
     id: "cookies",
     name: "Cookies",
     description: "Artisanal treats made with organic ingredients",
     image: "https://images.unsplash.com/photo-1590080874088-eec64895b423?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29va2llc3xlbnwwfHwwfHx8MA%3D%3D",
-    link: "/shop/cookies",
+    link: "/category/cookies",
   },
 ]
 
@@ -76,7 +76,7 @@ const ShopSection = () => {
                 <h3 className="text-2xl font-semibold text-luxury-dark mb-2">{category.name}</h3>
                 <p className="text-luxury-text/70 mb-4 flex-grow">{category.description}</p>
                 <Link href={category.link}>
-                  <Button className="w-full bg-luxury-medium hover:bg-luxury-dark text-white">
+                  <Button className="w-full bg-brown-heading hover:text-brown-background text-brown-light-text hover:bg-brown-heading/80 transition duration-300 ease-in-out">
                     Browse {category.name}
                   </Button>
                 </Link>

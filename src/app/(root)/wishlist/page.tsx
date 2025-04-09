@@ -1,145 +1,92 @@
 "use client"
 
-import { useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
-import { Trash2, ShoppingCart, User, Heart } from "lucide-react"
+import Image from "next/image"
+import { Heart, ShoppingCart, Trash2 } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import Footer from "@/components/global/footer"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { useWishlist } from "@/context/wishlist-context"
+import { useCart } from "@/context/cart-context"
 
 export default function WishlistPage() {
-  // In a real app, you would fetch this from an API or local storage
-  const [wishlistItems, setWishlistItems] = useState([
-    {
-      id: 101,
-      name: "Artisanal Jaggery Block",
-      description:
-        "Our premium Artisanal Jaggery Block is handcrafted using traditional methods that have been passed down through generations.",
-      price: "$89.99",
-      image: "/placeholder.svg?height=200&width=200",
-      stock: 15,
-    },
-    {
-      id: 102,
-      name: "Organic Jaggery Powder",
-      description: "Finely ground organic jaggery powder for easy use in cooking and baking.",
-      price: "$59.99",
-      image: "/placeholder.svg?height=200&width=200",
-      stock: 23,
-    },
-    {
-      id: 103,
-      name: "Premium Jaggery Gift Box",
-      description: "Assorted jaggery varieties presented in an elegant gift box.",
-      price: "$39.98",
-      image: "/placeholder.svg?height=200&width=200",
-      stock: 7,
-    },
-  ])
+  const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist()
+  const { addToCart } = useCart()
 
-  const [itemToRemove, setItemToRemove] = useState<number | null>(null)
+  const handleRemoveItem = (productId: string, productName: string) => {
+    removeFromWishlist(productId)
+    toast.success(`${productName} removed from wishlist`)
+  }
 
-  const removeFromWishlist = (id: number) => {
-    setWishlistItems(wishlistItems.filter((item) => item.id !== id))
+  const handleAddToCart = (product: any) => {
+    addToCart(product)
+    toast.success(`${product.name} added to cart`)
+  }
+
+  if (wishlistItems.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl font-bold mb-8">Your Wishlist</h1>
+        <div className="text-center py-12">
+          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+            <Heart className="h-12 w-12 text-gray-400" />
+          </div>
+          <h2 className="text-2xl font-semibold mb-4">Your wishlist is empty</h2>
+          <p className="text-gray-500 mb-8">Save items you love for later.</p>
+          <Button asChild size="lg">
+            <Link href="/products">Explore Products</Link>
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-[#FDF7F0]">
+    <div className="container mx-auto px-4 py-12">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Your Wishlist</h1>
+        <Button variant="outline" onClick={() => clearWishlist()}>
+          Clear Wishlist
+        </Button>
+      </div>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 mt-18 pt-2 mb-10">
-        <div className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#6B4226]">My Wishlist</h2>
-          <p className="text-[#8B5A2B] mt-2">Products you've saved for later</p>
-        </div>
-
-        {/* Wishlist Items */}
-        {wishlistItems.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {wishlistItems.map((item) => (
-              <Card key={item.id} className="border-[#D4B08C] bg-[#FDF7F0] overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="relative h-[200px] w-full">
-                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
-                  </div>
-                  <div className="p-4">
-                    <Link href={`/product/${item.id}`}>
-                      <h3 className="font-medium text-[#6B4226] hover:underline">{item.name}</h3>
-                    </Link>
-                    <p className="text-sm text-[#8B5A2B] mt-2 line-clamp-2">{item.description}</p>
-                    <div className="flex justify-between items-center mt-4">
-                      <span className="font-bold text-[#6B4226]">{item.price}</span>
-                      <Badge className={item.stock > 0 ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800"}>
-                        {item.stock > 0 ? `In Stock (${item.stock})` : "Out of Stock"}
-                      </Badge>
-                    </div>
-                    <div className="flex gap-2 mt-4">
-                      <Button className="bg-[#8B5A2B] hover:bg-[#6B4226] text-white flex-1" disabled={item.stock <= 0}>
-                        <ShoppingCart className="h-4 w-4 mr-2" />
-                        Add to Cart
-                      </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="border-[#8B5A2B] text-[#8B5A2B] hover:bg-[#F0E6D9]"
-                            onClick={() => setItemToRemove(item.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent className="bg-[#FDF7F0] border-[#D4B08C]">
-                          <AlertDialogHeader>
-                            <AlertDialogTitle className="text-[#6B4226]">Remove from Wishlist</AlertDialogTitle>
-                            <AlertDialogDescription className="text-[#8B5A2B]">
-                              Are you sure you want to remove this item from your wishlist?
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel className="border-[#D4B08C] text-[#8B5A2B]">Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              className="bg-[#8B5A2B] hover:bg-[#6B4226] text-white"
-                              onClick={() => removeFromWishlist(itemToRemove!)}
-                            >
-                              Remove
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 bg-white rounded-lg border border-[#D4B08C]">
-            <Heart className="h-16 w-16 mx-auto text-[#8B5A2B] opacity-30 mb-4" />
-            <h3 className="text-xl font-medium text-[#6B4226] mb-2">Your Wishlist is Empty</h3>
-            <p className="text-[#8B5A2B] mb-6">Browse our products and add items to your wishlist</p>
-            <Link href="/">
-              <Button className="bg-[#8B5A2B] hover:bg-[#6B4226] text-white">Explore Products</Button>
-            </Link>
-          </div>
-        )}
-      </main>
-
-      {/* Footer */}
-     <Footer />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {wishlistItems.map((item) => (
+          <Card key={item.id} className="overflow-hidden">
+            <div className="relative aspect-square">
+              <Image
+                src={item.images[0] || "/placeholder.svg?height=300&width=300"}
+                alt={item.name}
+                fill
+                className="object-cover"
+              />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full text-red-500"
+                onClick={() => handleRemoveItem(item.id, item.name)}
+              >
+                <Trash2 className="h-5 w-5" />
+              </Button>
+            </div>
+            <CardContent className="p-4">
+              <Link href={`/product/${item.id}`} className="font-medium hover:underline">
+                {item.name}
+              </Link>
+              <p className="text-sm text-gray-500 mt-1 line-clamp-2">{item.description}</p>
+              <div className="mt-2 font-bold">${item.price.toFixed(2)}</div>
+            </CardContent>
+            <CardFooter className="p-4 pt-0">
+              <Button className="w-full" onClick={() => handleAddToCart(item)}>
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                Add to Cart
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }
+

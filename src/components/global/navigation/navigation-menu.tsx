@@ -29,9 +29,9 @@ export function NavigationMenuDemo() {
             <ul className="flex flex-col gap-2 px-2 py-1  w-[18vh] text-[#E6D5C1]">
 
               <ListItem href="/products" title="All Products" />
-              <ListItem href="/#" title="Organic Jaggery"  />
-              <ListItem href="/#" title="Millte Cookies" />
-              <ListItem href="/#" title="Herbal Tea" />
+              <ListItem href="/category/jaggery" title="Organic Jaggery"  />
+              <ListItem href="/category/cookies" title="Millte Cookies" />
+              <ListItem href="/category/herbal-tea" title="Herbal Tea" />
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

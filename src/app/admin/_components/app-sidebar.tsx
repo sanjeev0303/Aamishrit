@@ -30,7 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <div className="w-full flex h-[4vh] shrink-0 rounded-lg">
                 <Image onClick={() => {
                     router.push('/admin')
-                }} src={"/opexn_logo.png"} alt="logo" width={100} height={100} className="object-contain lg:pl-2 max-sm:p-1" />
+                }} src={"/logo.png"} alt="logo" width={100} height={100} className="object-contain lg:pl-2 max-sm:p-1" />
               </div>
           </SidebarMenuItem>
         </SidebarMenu>
