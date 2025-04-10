@@ -3,7 +3,6 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navItems } from "@/constants/moblie-nav-list";
 import { useIsMobile, useIsTablet } from "@/hooks/use-mobile";
-import { User } from "@prisma/client";
 import {
     MenuIcon,
     SearchIcon,

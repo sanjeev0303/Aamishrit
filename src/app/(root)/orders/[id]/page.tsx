@@ -1,18 +1,32 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import type { Order } from "@/types"
-import { CheckCircle2 } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import type { Order } from "@/types";
+import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function OrderConfirmationPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
-  const [order, ] = useState<Order | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+export default function OrderConfirmationPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const router = useRouter();
+  const [order] = useState<Order | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [id, setId] = useState("")
+
+  useEffect(() => {
+   const fetchId = async () => {
+    const { id } = await params;
+    setId(id);
+   }
+   fetchId()
+  }, [id])
+
 
   useEffect(() => {
     // In a real app, we would fetch the order from the API
@@ -62,10 +76,10 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
 
     // Simulate API call
     setTimeout(() => {
-    //   setOrder(mockOrder)
-      setIsLoading(false)
-    }, 1000)
-  }, [params.id])
+      //   setOrder(mockOrder)
+      setIsLoading(false);
+    }, 1000);
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -76,7 +90,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
           <div className="h-32 bg-gray-200 rounded"></div>
         </div>
       </div>
-    )
+    );
   }
 
   if (!order) {
@@ -88,7 +102,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
           <Button onClick={() => router.push("/")}>Return to Home</Button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -99,7 +113,9 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
             <CheckCircle2 className="h-8 w-8 text-green-600" />
           </div>
           <h1 className="text-3xl font-bold">Order Confirmed!</h1>
-          <p className="text-gray-600 mt-2">Thank you for your purchase. Your order has been confirmed.</p>
+          <p className="text-gray-600 mt-2">
+            Thank you for your purchase. Your order has been confirmed.
+          </p>
           <p className="font-medium mt-1">Order #{order.id}</p>
         </div>
 
@@ -116,10 +132,15 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
                   </div>
                   <div className="flex-grow">
                     <div className="flex justify-between">
-                      <Link href={`/product/${item.id}`} className="font-medium hover:underline">
+                      <Link
+                        href={`/product/${item.id}`}
+                        className="font-medium hover:underline"
+                      >
                         {item.name}
                       </Link>
-                      <span className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</span>
+                      <span className="font-medium">
+                        ₹{(item.price * item.quantity).toFixed(2)}
+                      </span>
                     </div>
                     <p className="text-sm text-gray-500 mt-1">
                       ₹{item.price.toFixed(2)} × {item.quantity}
@@ -137,7 +158,11 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping</span>
-                  <span>{order.shipping === 0 ? "Free" : `₹${order.shipping.toFixed(2)}`}</span>
+                  <span>
+                    {order.shipping === 0
+                      ? "Free"
+                      : `₹${order.shipping.toFixed(2)}`}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Tax</span>
@@ -161,9 +186,12 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
               <div className="text-sm">
                 <p className="font-medium">{order.shippingAddress.fullName}</p>
                 <p>{order.shippingAddress.addressLine1}</p>
-                {order.shippingAddress.addressLine2 && <p>{order.shippingAddress.addressLine2}</p>}
+                {order.shippingAddress.addressLine2 && (
+                  <p>{order.shippingAddress.addressLine2}</p>
+                )}
                 <p>
-                  {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.pinCode}
+                  {order.shippingAddress.city}, {order.shippingAddress.state}{" "}
+                  {order.shippingAddress.pinCode}
                 </p>
                 <p>{order.shippingAddress.country}</p>
                 <p className="mt-2">{order.shippingAddress.mobileNumber}</p>
@@ -199,5 +227,5 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
         </div>
       </div>
     </div>
-  )
+  );
 }

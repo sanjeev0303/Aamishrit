@@ -9,7 +9,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-// Removed unused import
 import { User } from '@prisma/client'
 import { User2 } from 'lucide-react'
 import Image from 'next/image'
