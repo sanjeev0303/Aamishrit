@@ -6,15 +6,9 @@ import { Toaster } from 'sonner'
 
 const RootLayout = async ({children}: {children: React.ReactNode}) => {
 
-    const auth = await onAuthenticateUser()
-
-    if (!auth?.user) {
-        redirect('/sign-in')
-    }
-
     return (
     <div className='select-none relative'>
-    <NavigationBar user={auth.user} />
+    <NavigationBar  />
     <main className='mt-16'>
     {children}
     <Toaster />

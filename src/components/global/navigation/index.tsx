@@ -16,12 +16,9 @@ import UserButton from "./use-button";
 
 
 
-type NavigationBarProps = {
-    user: User
-}
 
 
-const NavigationBar = ({user}: NavigationBarProps) => {
+const NavigationBar = () => {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
 
@@ -101,7 +98,7 @@ const NavigationBar = ({user}: NavigationBarProps) => {
          <div className="flex gap-8 items-center">
          <NavigationMenuDemo />
          <div className="flex gap-5 items-center">
-            <UserButton user={user} />
+            <UserButton />
             <Link href={"/cart"}>
             <ShoppingCartIcon className="w-7 h-7" />
             </Link>

@@ -1,3 +1,6 @@
+"use client"
+
+import { onAuthenticateUser } from "@/actions/user"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,10 +14,23 @@ import { User } from '@prisma/client'
 import { User2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from "react"
 
 
 
-const UserButton = ({user}: {user: User}) => {
+const UserButton = () => {
+
+   const [user, setUser] = useState<User | null>(null)
+
+   useEffect(() => {
+    const fetchUser = async () => {
+      const {user} = await onAuthenticateUser()
+      setUser(user || null)
+    }
+
+    fetchUser()
+   }, [])
+
 
   return (
     <div>
