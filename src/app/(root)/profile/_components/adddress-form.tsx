@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import type * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,7 +11,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { AddressFormSchema } from "@/lib/validator/addressFormSchema"
 
 // List of Indian states
@@ -54,13 +53,11 @@ const INDIAN_STATES = [
   "Puducherry",
 ]
 
-// Form schema with validatio
-
 type AddressFormValues = z.infer<typeof AddressFormSchema>
 
 interface AddressFormProps {
   address?: any
-  onSubmit: (data: any) => void
+  onSubmit: (FormData) => void
   onCancel: () => void
   isSubmitting: boolean
 }
@@ -98,10 +95,24 @@ export default function AddressForm({ address, onSubmit, onCancel, isSubmitting 
       })
     }
   }, [address, form])
-  
+
+  // Update the handleSubmit function to properly handle the form submission
+  const handleSubmit = (values: AddressFormValues) => {
+    const formData = new FormData()
+
+    // Add all form values to FormData
+    Object.entries(values).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value.toString())
+      }
+    })
+
+    onSubmit(formData)
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}

@@ -1,71 +1,275 @@
 "use client"
 
-import { MapPin, Pencil, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import type * as z from "zod"
 
-interface AddressListProps {
-  addresses: any[]
-  onEdit: (id: string) => void
-  onDelete: (id: string) => void
-  isDeleting: boolean
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { AddressFormSchema } from "@/lib/validator/addressFormSchema"
+
+// List of Indian states
+const INDIAN_STATES = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Jammu and Kashmir",
+  "Ladakh",
+  "Lakshadweep",
+  "Puducherry",
+]
+
+type AddressFormValues = z.infer<typeof AddressFormSchema>
+
+interface AddressFormProps {
+  address?: any
+  onSubmit: (formData: FormData) => void
+  onCancel: () => void
+  isSubmitting: boolean
 }
 
-export default function AddressList({ addresses, onEdit, onDelete, isDeleting }: AddressListProps) {
-  if (addresses.length === 0) {
-    return (
-      <div className="text-center py-8">
-        <div className="mx-auto w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-          <MapPin className="h-6 w-6 text-gray-400" />
-        </div>
-        <h3 className="text-lg font-medium mb-2">No addresses saved</h3>
-        <p className="text-gray-500 mb-4">Add a shipping address to speed up checkout.</p>
-      </div>
-    )
+export default function AddressForm({ address, onSubmit, onCancel, isSubmitting }: AddressFormProps) {
+  // Initialize form with react-hook-form
+  const form = useForm<AddressFormValues>({
+    resolver: zodResolver(AddressFormSchema),
+    defaultValues: {
+      fullName: "",
+      mobileNumber: "",
+      pinCode: "",
+      addressLine1: "",
+      addressLine2: "",
+      landmark: "",
+      city: "",
+      state: "",
+      isDefault: Boolean(false),
+    },
+  })
+
+  // Update form values when address prop changes
+  useEffect(() => {
+    if (address) {
+      form.reset({
+        fullName: address.fullName || address.name || "",
+        mobileNumber: address.mobileNumber || address.phone || "",
+        pinCode: address.pinCode || address.zip || "",
+        addressLine1: address.addressLine1 || address.street || "",
+        addressLine2: address.addressLine2 || "",
+        landmark: address.landmark || "",
+        city: address.city || "",
+        state: address.state || "",
+        isDefault: Boolean(address.isDefault),
+      })
+    }
+  }, [address, form])
+
+  // Update the handleSubmit function to properly handle the form submission
+  const handleSubmit = (values: AddressFormValues) => {
+    const formData = new FormData()
+
+    // Add all form values to FormData
+    Object.entries(values).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value.toString())
+      }
+    })
+
+    onSubmit(formData)
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {addresses.map((address) => (
-        <Card key={address.id} className="relative">
-          <CardContent className="p-6">
-            <div className="flex justify-between items-start mb-4">
-              <div className="flex items-center gap-2">
-                <h3 className="font-medium">{address.name}</h3>
-                {address.isDefault && (
-                  <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
-                    Default
-                  </Badge>
-                )}
-              </div>
-              <div className="flex gap-2">
-                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onEdit(address.id)}>
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50"
-                  onClick={() => onDelete(address.id)}
-                  disabled={isDeleting}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="space-y-1 text-gray-600">
-              <p>{address.street}</p>
-              <p>
-                {address.city}, {address.state} {address.zip}
-              </p>
-              <p>{address.country}</p>
-              <p className="mt-2">{address.phone}</p>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="fullName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name*</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your full name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="mobileNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mobile Number*</FormLabel>
+                <FormControl>
+                  <Input placeholder="10-digit mobile number" {...field} />
+                </FormControl>
+                <FormDescription>We'll send delivery updates on this number</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="pinCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>PIN Code*</FormLabel>
+                <FormControl>
+                  <Input placeholder="6-digit PIN code" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>State*</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your state" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {INDIAN_STATES.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City/District/Town*</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your city" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="md:col-span-2">
+            <FormField
+              control={form.control}
+              name="addressLine1"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address (House No, Building, Street, Area)*</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Enter your full address" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="addressLine2"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Apartment/Suite/Floor (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Additional address details" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="landmark"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Landmark (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nearby landmark for easy navigation" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="md:col-span-2">
+            <FormField
+              control={form.control}
+              name="isDefault"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4 border">
+                  <FormControl>
+                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Make this my default address</FormLabel>
+                    <FormDescription>
+                      This address will be used as the default for all deliveries and communications
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-4">
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Saving..." : address ? "Update Address" : "Save Address"}
+          </Button>
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+        </div>
+      </form>
+    </Form>
   )
 }
-

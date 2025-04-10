@@ -106,8 +106,7 @@ model Order {
     shipping       Decimal     @db.Decimal(10, 2)
     tax            Decimal     @db.Decimal(10, 2)
     total          Decimal     @db.Decimal(10, 2)
-    paymentMethod  String
-    paymentId      String?
+    paymentId      String?     @unique
     addressId      String
     trackingNumber String?
     notes          String?
@@ -124,9 +123,36 @@ model Order {
     user    User        @relation(fields: [userId], references: [id])
     address Address     @relation(fields: [addressId], references: [id])
     items   OrderItem[]
+    payment Payment?
+    timeline OrderTimeline[]
 
     @@index([userId])
     @@index([addressId])
+}
+
+model OrderTimeline {
+    id        String   @id @default(cuid())
+    orderId   String
+    status    OrderStatus
+    createdAt DateTime @default(now())
+    confirmed   DateTime?
+    processing  DateTime?
+
+    order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+    @@index([orderId])
+}
+
+model Payment {
+    id        String   @id @default(cuid())
+    orderId   String   @unique
+    method    String
+    cardLast4 String?
+    date      DateTime
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 enum OrderStatus {
@@ -135,6 +161,7 @@ enum OrderStatus {
     SHIPPED
     DELIVERED
     CANCELLED
+    CONFIRMED
 }
 
 model OrderItem {

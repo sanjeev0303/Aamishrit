@@ -19,5 +19,5 @@ export const AddressFormSchema = z.object({
   landmark: z.string().optional(),
   city: z.string().min(2, { message: "Please enter a valid city name" }),
   state: z.string({ required_error: "Please select a state" }),
-  isDefault: z.boolean(),
+  isDefault: z.boolean().default(false),
 });

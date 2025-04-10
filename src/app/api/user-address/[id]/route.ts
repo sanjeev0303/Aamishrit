@@ -5,10 +5,11 @@ import { client } from "@/lib/prisma";
 import { ZodError } from "zod";
 import { AddressFormSchema } from "@/lib/validator/addressFormSchema";
 
-export async function POST(request: Request) {
+type Params = Promise<{id: string}>
+
+export async function POST(request: Request, { params }: {params: Params}) {
     try {
-       const id = request.headers.get("id")
-       console.log("header id: ", id);
+       const id = (await params).id
 
 
         const data = await request.formData();
@@ -88,20 +89,22 @@ export async function POST(request: Request) {
       }
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request, {params}: {params: Params}) {
   try {
-    const id = String(request.headers.get("id"))
+    const id = (await params).id
 
     const userAddresses = await client.address.findMany({
       where: {
         userId: id
       },select: {
+        id: true,
         fullName: true,
         mobileNumber: true,
         addressLine1:true,
         city:true,
         state: true,
         pincode: true,
+        isDefault: true,
       }
     });
     return NextResponse.json({ addresses: userAddresses }, { status: 200 });

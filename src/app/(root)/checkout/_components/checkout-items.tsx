@@ -1,18 +1,27 @@
+import { CartItem } from "@/types";
 import Image from "next/image"
 import Link from "next/link"
 
 interface CheckoutItemsProps {
-  items: any[]
+  items: CartItem[]
 }
 
 export default function CheckoutItems({ items }: CheckoutItemsProps) {
-  return (
+
+    if (!items || items.length === 0) {
+        return <div>No items in cart</div>
+      }
+
+    console.log("Cart items productImages:", items.map(item => item.productImages?.[0]));
+
+
+    return (
     <div className="space-y-6">
       {items.map((item) => (
         <div key={item.id} className="flex gap-4">
           <div className="relative w-16 h-16 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
             <Image
-              src={item.images[0] || "/placeholder.svg?height=64&width=64"}
+              src={item.productImages[0] || "/placeholder.svg?height=64&width=64"}
               alt={item.name}
               fill
               className="object-cover"
@@ -26,7 +35,7 @@ export default function CheckoutItems({ items }: CheckoutItemsProps) {
               <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
             </div>
             <p className="text-sm text-gray-500 mt-1">
-              ${item.price.toFixed(2)} × {item.quantity}
+              ${item.price} × {item.quantity}
             </p>
           </div>
         </div>
@@ -34,4 +43,3 @@ export default function CheckoutItems({ items }: CheckoutItemsProps) {
     </div>
   )
 }
-

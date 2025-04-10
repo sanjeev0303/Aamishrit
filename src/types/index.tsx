@@ -38,12 +38,23 @@ export interface Product {
     id: string
     fullName: string
     addressLine1: string
+    addressLine2: string
+    landmark: string
     city: string
     state: string
     pinCode: string
     country: string
     mobileNumber: string
     isDefault: boolean
+  }
+
+  export interface CartItem extends Product {
+    quantity: number
+    productImages: string[]
+  }
+
+  export interface PaymentInfo {
+    method: string
   }
 
   export interface Order {
@@ -73,10 +84,20 @@ export interface Product {
     }
   }
 
-  export interface OrderItem {
-    productId: string
+
+export interface OrderItem {
+    id: string
     name: string
     price: number
     quantity: number
-    image: string
+    images: []
+    items: CartItem[]
+    shippingAddress: Address
+    paymentInfo: PaymentInfo
+    subtotal: number
+    shipping: number
+    tax: number
+    total: number
+    status: string
+    createdAt: string
   }
