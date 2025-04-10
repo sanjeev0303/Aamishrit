@@ -25,7 +25,7 @@ export async function POST (request: Request) {
                 quantity: item.quantity,
                 })),
             },
-            subtotal: items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0),
+            subtotal: items.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0),
             shipping: 10, // You might want to calculate this based on your business logic
             tax: items.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0) * 0.1, // Assuming 10% tax
             total: items.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0) * 1.1 + 10, // subtotal + tax + shipping

@@ -28,8 +28,9 @@ export async function GET(_request: Request, { params }: { params: Params }) {
 
     return NextResponse.json(product);
   } catch (error) {
+    console.error("Error fetching products:", error);
     return NextResponse.json(
-      { message: "Failed to fetch products" },
+      { message: "Failed to fetch products", error: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }

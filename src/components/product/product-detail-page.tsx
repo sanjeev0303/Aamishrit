@@ -72,7 +72,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     return (
       <div className="container mx-auto px-4 py-12 text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h2>
-        <p className="text-gray-700 mb-6">The product you're looking for doesn't exist or has been removed.</p>
+        <p className="text-gray-700 mb-6">The product you are looking for does not exist or has been removed.</p>
         <Link href="/products">
           <Button>Browse Products</Button>
         </Link>

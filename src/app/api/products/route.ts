@@ -111,6 +111,7 @@ export async function GET() {
 
         return NextResponse.json({ allProducts })
     } catch (error) {
+        console.error("Error fetching products:", error);
         return NextResponse.json(
             { message: "Server error" },
             { status: 500 }

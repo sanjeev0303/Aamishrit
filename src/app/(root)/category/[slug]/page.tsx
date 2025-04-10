@@ -9,9 +9,13 @@ import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import ProductGridSkeleton from "../../../../components/product/Product-grid-skeleton"
 
-type Params = { slug: string }
+type Props = {
+  params: {
+    slug: string
+  }
+}
 
-export default  function CategoryPage({ params }: { params: Params}) {
+export default function CategoryPage({ params }: Props) {
   const { slug } = params
 
   const {data: category} = useQuery({

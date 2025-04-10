@@ -40,7 +40,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
     setSelectedImage((prev) => (prev - 1 + product.productImages.length) % product.productImages.length)
   }
 
-  const {data, isLoading, isError} = useQuery({
+  const {data, isLoading} = useQuery({
     queryKey: ["productId"],
     queryFn: () => getProductById(id)
   })
@@ -59,12 +59,13 @@ export default function ProductDetail({ id }: ProductDetailProps) {
           router.push("/products")
         }
       } catch (error) {
-        toast.error("Failed to load product")
+        console.error('Error loading product:', error)
+        toast.error("Failed to load product. Please try again later.")
       }
     }
 
     loadProduct()
-  }, [id, router, isInWishlist])
+  }, [id, router, isInWishlist, data])
 
   if (isLoading) {
     return (
@@ -84,7 +85,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold">Product not found</h2>
-        <p className="mt-2 text-gray-600">The product you're looking for doesn't exist or has been removed.</p>
+        <p className="mt-2 text-gray-600">The product you are looking for does not exist or has been removed.</p>
         <Button className="mt-6" onClick={() => router.push("/products")}>
           Back to Products
         </Button>
