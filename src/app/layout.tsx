@@ -1,5 +1,4 @@
 import { QueryProvider } from "@/providers/query-provider";
-import { ReduxProvider } from "@/react-redux/redux-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
@@ -45,12 +44,10 @@ export default function RootLayout({
         className={inter.className}
       >
         <ClerkProvider>
-          <ReduxProvider>
             <QueryProvider>
               {children}
               <Toaster />
             </QueryProvider>
-          </ReduxProvider>
         </ClerkProvider>
       </body>
     </html>
