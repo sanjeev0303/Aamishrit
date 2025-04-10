@@ -6,7 +6,6 @@ import {
     SettingsIcon,
     ShoppingCartIcon,
     Users,
-    Video
 } from "lucide-react"
 
 

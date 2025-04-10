@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React, {Suspense} from 'react'
-import {easeInOut, motion} from "framer-motion"
+import { motion} from "framer-motion"
 import { Loader2 } from 'lucide-react'
 
 const HeroImage = () => {

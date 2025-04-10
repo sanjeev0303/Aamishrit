@@ -1,10 +1,20 @@
 import { Button } from "@/components/ui/button"
+// import { CartItem } from "@/types"
 import { Minus, Plus, Trash2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
+interface CartItem  {
+    productId: string
+    name: string
+    photo?: string
+    price: number
+    stock: number
+    quantity: number
+}
+
 type CartItemProps = {
-  cartItem: any
+  cartItem: CartItem
   onQuantityChange?: (productId: string, newQuantity: number) => void
   onRemove?: (productId: string) => void
 }

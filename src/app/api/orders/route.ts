@@ -1,5 +1,7 @@
-import{ client} from  "@/lib/prisma"
+import { client } from "@/lib/prisma"
+import { OrderItem } from "@/types"
 import { OrderStatus } from "@prisma/client"
+import { NextResponse } from "next/server"
 
 
 export async function POST (request: Request) {
@@ -18,15 +20,15 @@ export async function POST (request: Request) {
             createdAt: new Date().toISOString(),
             status: OrderStatus.PROCESSING,
             items: {
-                create: items.map((item: any) => ({
+                create: items.map((item: OrderItem) => ({
                 productId: item.id,
                 quantity: item.quantity,
                 })),
             },
             subtotal: items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0),
             shipping: 10, // You might want to calculate this based on your business logic
-            tax: items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0) * 0.1, // Assuming 10% tax
-            total: items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0) * 1.1 + 10, // subtotal + tax + shipping
+            tax: items.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0) * 0.1, // Assuming 10% tax
+            total: items.reduce((acc: number, item: OrderItem) => acc + (item.price * item.quantity), 0) * 1.1 + 10, // subtotal + tax + shipping
             address: {
                 create: shippingAddress,
             },
@@ -48,7 +50,7 @@ export async function POST (request: Request) {
             },
         })
 
-        return Response.json(
+        return NextResponse.json(
             {
                 message: "Order created successfully",
                 order,
@@ -56,7 +58,13 @@ export async function POST (request: Request) {
             { status: 201 },
         )
     } catch (error) {
-
+        console.error("Error creating order:", error)
+        return NextResponse.json(
+            {
+                message: "Server error",
+            },
+            { status: 500 },
+        )
     }
 
 }

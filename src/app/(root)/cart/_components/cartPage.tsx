@@ -24,7 +24,7 @@ export default function CartPage() {
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
-    const newSubtotal = cartItems.reduce((total: any, item: any) => total + item.price * item.quantity, 0)
+    const newSubtotal = cartItems.reduce((total: number, item: { price: number; quantity: number }) => total + item.price * item.quantity, 0)
     const newShipping = newSubtotal > 100 ? 0 : 10
     const newTax = newSubtotal * 0.07
     const newTotal = newSubtotal + newShipping + newTax
@@ -72,7 +72,7 @@ export default function CartPage() {
             <ShoppingBag className="h-12 w-12 text-brown-heading " />
           </div>
           <h2 className="text-2xl font-semibold mb-4 text-brown-text">Your cart is empty</h2>
-          <p className=" mb-8 text-brown-text/80">Looks like you haven't added anything to your cart yet.</p>
+          {/* <p className=" mb-8 text-brown-text/80">Looks like you haven't added anything to your cart yet.</p> */}
           <Button asChild size="lg" className="bg-brown-heading text-brown-light-text hover:bg-brown-heading/90">
             <Link href="/products">Start Shopping</Link>
           </Button>

@@ -1,12 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import type { OrderItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 type OrderItemProps = {
-  orderItems: any;
+  orderItems: OrderItem;
 };
 
 const OrderItem = ({ orderItems }: OrderItemProps) => {
@@ -32,13 +33,13 @@ const OrderItem = ({ orderItems }: OrderItemProps) => {
         <div className="p-4 md:p-6 bg-[#F8F2E9]">
           <h4 className="font-medium text-[#6B4226] mb-4">Order Items</h4>
           <div className="space-y-4">
-            {orderItems.items.map((item: any) => (
+            {orderItems.items.map((item) => (
               <div
                 key={item.id}
                 className="flex items-center gap-4 p-3 rounded-lg bg-white border border-[#E6D5C1]"
               >
                 <Image
-                  src={item.image || "/placeholder.svg"}
+                  src={item.productImages[0] || "/placeholder.svg"}
                   alt={item.name}
                   width={80}
                   height={80}

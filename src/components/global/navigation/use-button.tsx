@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -6,13 +5,12 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu"
 // Removed unused import
-import Link from 'next/link'
-import { useUser } from '@clerk/nextjs'
-import Image from 'next/image'
-import { User2 } from 'lucide-react'
 import { User } from '@prisma/client'
+import { User2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 
 

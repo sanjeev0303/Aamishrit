@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 
 const aboutItems = [
   {
@@ -33,10 +31,10 @@ const aboutItems = [
 
 const AboutSection = () => {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
+//   const { scrollYProgress } = useScroll({
+//     target: sectionRef,
+//     offset: ["start end", "end start"],
+//   });
 
   //   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   //   const y = useTransform(scrollYProgress, [1, 0.2, 0.8, 1], [100, 0, 0, 100]);

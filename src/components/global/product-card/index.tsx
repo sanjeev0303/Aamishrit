@@ -1,16 +1,4 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import Image from "next/image";
-import { FaPlus } from "react-icons/fa";
-import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 type ProductCardProps = {
@@ -27,11 +15,7 @@ const ProductCard = ({
   name,
   photo,
   price,
-  stock,
-  handler,
 }: ProductCardProps) => {
-
-    const router = useRouter()
 
   return (
     <div className="flex flex-col mx-auto">

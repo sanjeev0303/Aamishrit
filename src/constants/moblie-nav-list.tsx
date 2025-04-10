@@ -1,4 +1,4 @@
-import { HomeIcon, Layers, Warehouse, Users, ShoppingCart, Blocks } from "lucide-react";
+import { Blocks, HomeIcon, Layers, Users, Warehouse } from "lucide-react";
 
 export const navItems = [
     { label: "Home", href: "/", icon: HomeIcon },

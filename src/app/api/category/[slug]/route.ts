@@ -1,4 +1,5 @@
 import { client } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 type Params = Promise<{ slug: string }>
 
@@ -19,16 +20,16 @@ export async function GET(_request: Request, { params }: { params: Params }) {
         }
     })
 
-    if (!product) {
-      return Response.json({ message: "Product not found" }, { status: 400 });
+    if (product.length === 0) {
+      return Response.json({ message: "No products found in this category" }, { status: 404 });
     }
 
     console.log("Products categories: ", product);
 
-    return Response.json(product);
+    return NextResponse.json(product);
   } catch (error) {
-    return Response.json(
-      { message: "Failed to fetch a product" },
+    return NextResponse.json(
+      { message: "Failed to fetch products" },
       { status: 500 }
     );
   }

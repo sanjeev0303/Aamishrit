@@ -1,28 +1,35 @@
 "use client"
 
-import Link from "next/link"
+import { Heart, Trash2 } from "lucide-react"
 import Image from "next/image"
-import { Heart, ShoppingCart, Trash2 } from "lucide-react"
+import Link from "next/link"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { useWishlist } from "@/context/wishlist-context"
-import { useCart } from "@/context/cart-context"
 
 export default function WishlistPage() {
   const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist()
-  const { addToCart } = useCart()
+//   const { addToCart } = useCart()
 
   const handleRemoveItem = (productId: string, productName: string) => {
     removeFromWishlist(productId)
     toast.success(`${productName} removed from wishlist`)
   }
 
-  const handleAddToCart = (product: any) => {
-    addToCart(product)
-    toast.success(`${product.name} added to cart`)
-  }
+//   const handleAddToCart = (product: Product) => {
+//     const cartItem = {
+//       ...product,
+//       quantity: 1,
+//       features: [],
+//       price: Number(product.price),
+//       originalPrice: product.originalPrice ? Number(product.originalPrice) : null,
+//       longDescription: product.longDescription ?? undefined
+//     }
+//     // addToCart(cartItem)
+//     toast.success(`${product.name} added to cart`)
+//   }
 
   if (wishlistItems.length === 0) {
     return (
@@ -56,7 +63,7 @@ export default function WishlistPage() {
           <Card key={item.id} className="overflow-hidden">
             <div className="relative aspect-square">
               <Image
-                src={item.images[0] || "/placeholder.svg?height=300&width=300"}
+                src={item.productImages[0] || "/placeholder.svg?height=300&width=300"}
                 alt={item.name}
                 fill
                 className="object-cover"
@@ -78,10 +85,10 @@ export default function WishlistPage() {
               <div className="mt-2 font-bold">${item.price.toFixed(2)}</div>
             </CardContent>
             <CardFooter className="p-4 pt-0">
-              <Button className="w-full" onClick={() => handleAddToCart(item)}>
+              {/* <Button className="w-full" onClick={() => handleAddToCart(item)}>
                 <ShoppingCart className="h-4 w-4 mr-2" />
                 Add to Cart
-              </Button>
+              </Button> */}
             </CardFooter>
           </Card>
         ))}
@@ -89,4 +96,3 @@ export default function WishlistPage() {
     </div>
   )
 }
-

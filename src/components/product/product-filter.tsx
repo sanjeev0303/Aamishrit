@@ -12,11 +12,11 @@ export default function ProductFilters() {
 
   // Get initial filter values from URL
   const initialCategories = searchParams.get("categories")?.split(",") || []
-  const initialBrands = searchParams.get("brands")?.split(",") || []
-  const initialPriceRange = [
-    Number.parseInt(searchParams.get("minPrice") || "0"),
-    Number.parseInt(searchParams.get("maxPrice") || "1000"),
-  ]
+//   const initialBrands = searchParams.get("brands")?.split(",") || []
+//   const initialPriceRange = [
+//     Number.parseInt(searchParams.get("minPrice") || "0"),
+//     Number.parseInt(searchParams.get("maxPrice") || "1000"),
+//   ]
 
   // Filter state
   const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories)

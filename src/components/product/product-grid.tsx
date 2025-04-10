@@ -15,9 +15,9 @@ interface ProductGridProps {
   limit?: number
 }
 
-export default function ProductGrid({ featured, categorySlug, limit }: ProductGridProps) {
+export default function ProductGrid({ limit }: ProductGridProps) {
   const dispatch = useAppDispatch()
-  const { filteredItems, status, error, currentPage, totalPages, itemsPerPage } = useAppSelector(
+  const { filteredItems, status, currentPage, totalPages, itemsPerPage } = useAppSelector(
     (state) => state.productReducer,
   )
 

@@ -11,8 +11,8 @@ import ProductGridSkeleton from "../../../../components/product/Product-grid-ske
 
 type Params = { slug: string }
 
-export default async function CategoryPage({ params }: { params: Params}) {
-  const { slug } = await Promise.resolve(params)
+export default  function CategoryPage({ params }: { params: Params}) {
+  const { slug } = params
 
   const {data: category} = useQuery({
     queryKey: ["categoryById", slug],

@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link"
-import { Package, Truck, CheckCircle, Clock, ArrowLeft, User } from "lucide-react"
+import { Package, Truck, CheckCircle, Clock, ArrowLeft } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -132,7 +132,7 @@ export default function TrackOrderPage() {
 
                 {/* Steps */}
                 <div className="space-y-8">
-                  {steps.map((step, index) => (
+                  {steps.map((step) => (
                     <div key={step.id} className="relative flex items-start">
                       <div
                         className={`flex h-10 w-10 items-center justify-center rounded-full ${

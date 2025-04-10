@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import Footer from "@/components/global/footer"
-import { getProductById, getRelatedProducts, getProductReviews } from "@/actions/api"
+
 import ProductGridSkeleton from "./Product-grid-skeleton"
-import RelatedProducts from "./related-products"
 import ReviewSection from "./review-section"
+import { getProductById } from "@/https/api"
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const [selectedImage, setSelectedImage] = useState(0)
@@ -34,20 +34,20 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   })
 
   // Fetch related products
-  const { data: relatedProducts, isLoading: isRelatedLoading } = useQuery({
-    queryKey: ["relatedProducts", params.id],
-    queryFn: () => getRelatedProducts(params.id),
-    staleTime: 60 * 1000,
-    enabled: !!product, // Only fetch when product data is available
-  })
+//   const { data: relatedProducts, isLoading: isRelatedLoading } = useQuery({
+//     queryKey: ["relatedProducts", params.id],
+//     queryFn: () => getRelatedProducts(params.id),
+//     staleTime: 60 * 1000,
+//     enabled: !!product, // Only fetch when product data is available
+//   })
 
   // Fetch product reviews
-  const { data: reviews, isLoading: isReviewsLoading } = useQuery({
-    queryKey: ["productReviews", params.id],
-    queryFn: () => getProductReviews(params.id),
-    staleTime: 60 * 1000,
-    enabled: !!product, // Only fetch when product data is available
-  })
+//   const { data: reviews, isLoading: isReviewsLoading } = useQuery({
+//     queryKey: ["productReviews", params.id],
+//     queryFn: () => getProductReviews(params.id),
+//     staleTime: 60 * 1000,
+//     enabled: !!product, // Only fetch when product data is available
+//   })
 
   // Handle loading and error states
   if (isProductLoading) {
@@ -93,11 +93,11 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   }
 
   const nextImage = () => {
-    setSelectedImage((prev) => (prev + 1) % product.images.length)
+    setSelectedImage((prev) => (prev + 1) % product.productImages.length)
   }
 
   const prevImage = () => {
-    setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length)
+    setSelectedImage((prev) => (prev - 1 + product.productImages.length) % product.productImages.length)
   }
 
   const toggleWishlist = () => {
@@ -133,7 +133,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
           <div className="lg:w-[70%] space-y-4">
             <div className="relative rounded-lg overflow-hidden border border-[#D4B08C] h-[400px] md:h-[600px] bg-white">
               <Image
-                src={product.images[selectedImage] || "/placeholder.svg?height=600&width=600"}
+                src={product.productImages[selectedImage] || "/placeholder.svg?height=600&width=600"}
                 alt={product.name}
                 fill
                 className="object-contain p-4"
@@ -154,7 +154,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               </button>
             </div>
             <div className="flex gap-2 overflow-x-auto pb-2">
-              {product.images.slice(0, showAllThumbnails ? product.images.length : 4).map((image, index) => (
+              {product.productImages.slice(0, showAllThumbnails ? product.productImages.length : 4).map((image: string, index: number) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -172,7 +172,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                   />
                 </button>
               ))}
-              {product.images.length > 4 && !showAllThumbnails && (
+              {product.productImages.length > 4 && !showAllThumbnails && (
                 <button
                   onClick={() => setShowAllThumbnails(true)}
                   className="flex-shrink-0 rounded-md overflow-hidden border-2 border-[#D4B08C] w-24 h-24 flex items-center justify-center bg-[#F0E6D9]"
@@ -313,17 +313,18 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
         </div>
 
         {/* Related Products */}
-        <RelatedProducts productId={params.id}
+        {/* <RelatedProducts productId={params.id}
         // relatedProducts={relatedProducts}
-        isLoading={isRelatedLoading} />
+        isLoading={isRelatedLoading}
+        /> */}
 
         {/* Reviews Section */}
         <ReviewSection
           productId={params.id}
           productRating={product.rating}
           reviewCount={product.reviewCount}
-          reviews={reviews}
-          isLoading={isReviewsLoading}
+        //   reviews={reviews}
+        //   isLoading={isReviewsLoading}
         />
       </main>
       <Footer />

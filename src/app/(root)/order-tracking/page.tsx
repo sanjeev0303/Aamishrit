@@ -1,26 +1,27 @@
 "use client"
 
-import { useState } from "react"
+import { CheckCircle, Clock, Filter, Package, Search, Star, Truck, User } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { Package, Truck, CheckCircle, Clock, User, Search, Filter, Star } from "lucide-react"
+import { useState } from "react"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { Product } from "@/types"
 
 export default function OrderTrackingPage() {
   // Sample orders data
@@ -103,7 +104,7 @@ export default function OrderTrackingPage() {
   ]
 
   const [selectedOrder, setSelectedOrder] = useState<number | null>(null)
-  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [rating, setRating] = useState<number>(0)
   const [reviewText, setReviewText] = useState<string>("")
   const [hoveredStar, setHoveredStar] = useState<number>(0)
@@ -152,12 +153,12 @@ export default function OrderTrackingPage() {
     setSelectedOrder(null)
   }
 
-  const openReviewDialog = (orderId: number, product: any) => {
-    setSelectedOrder(orderId)
-    setSelectedProduct(product)
-    setRating(0)
-    setReviewText("")
-  }
+//   const openReviewDialog = (orderId: number, product: Product) => {
+//     setSelectedOrder(orderId)
+//     setSelectedProduct(product)
+//     setRating(0)
+//     setReviewText("")
+//   }
 
   // Filter orders based on search term and status filter
   const filteredOrders = orders.filter((order) => {
@@ -307,7 +308,7 @@ export default function OrderTrackingPage() {
                                   variant="outline"
                                   size="sm"
                                   className="border-[#8B5A2B] text-[#8B5A2B] hover:bg-[#F0E6D9] flex-1 sm:flex-none"
-                                  onClick={() => openReviewDialog(order.id, item)}
+                                //   onClick={() => openReviewDialog(order.id, item)}
                                 >
                                   Write Review
                                 </Button>

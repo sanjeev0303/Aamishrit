@@ -1,5 +1,3 @@
-import { onAuthenticateUser } from "@/actions/user"
-import { redirect } from "next/navigation"
 import ProductManagement from "./_components/product-management"
 
 

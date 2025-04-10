@@ -46,7 +46,7 @@ export const onAuthenticateUser = async () => {
 
     return { status: 400, message: "User creation failed" };
   } catch (error) {
-    console.log("🔴 ERROR", (error as any).stack);
+    console.log("🔴 ERROR", (error instanceof Error ? error.stack : error));
     return { status: 500, error: "Internal Server Error" };
   }
 };

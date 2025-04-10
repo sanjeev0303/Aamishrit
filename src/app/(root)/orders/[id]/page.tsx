@@ -1,69 +1,68 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-import Link from "next/link"
-import { CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import type { Order } from "@/types"
+import { CheckCircle2 } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export default function OrderConfirmationPage({ params }: { params: { id: string } }) {
   const router = useRouter()
-  const [order, setOrder] = useState<Order | null>(null)
+  const [order, ] = useState<Order | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // In a real app, we would fetch the order from the API
     // For this demo, we'll create a mock order
-    const mockOrder: Order = {
-      id: params.id,
-      items: [
-        {
-          id: "prod_1",
-          name: "Wireless Headphones",
-          price: 2499,
-          quantity: 1,
-          images: ["/placeholder.svg?height=64&width=64"],
-        },
-        {
-          id: "prod_2",
-          name: "Smart Watch",
-          price: 3999,
-          quantity: 1,
-          images: ["/placeholder.svg?height=64&width=64"],
-        },
-      ],
-      shippingAddress: {
-        id: "addr_1",
-        fullName: "John Doe",
-        mobileNumber: "9876543210",
-        addressLine1: "123 Main Street",
-        addressLine2: "Apartment 4B",
-        landmark: "Near Central Park",
-        city: "Mumbai",
-        state: "Maharashtra",
-        pinCode: "400001",
-        country: "India",
-        isDefault: true,
-        userId: "user_123",
-      },
-      paymentInfo: {
-        method: "cod",
-      },
-      subtotal: 6498,
-      shipping: 0,
-      tax: 454.86,
-      total: 6952.86,
-      status: "confirmed",
-      createdAt: new Date().toISOString(),
-    }
+    // const mockOrder: Order = {
+    //   id: params.id,
+    //   items: [
+    //     {
+    //       id: "prod_1",
+    //       name: "Wireless Headphones",
+    //       price: 2499,
+    //       quantity: 1,
+    //       images: ["/placeholder.svg?height=64&width=64"],
+    //     },
+    //     {
+    //       id: "prod_2",
+    //       name: "Smart Watch",
+    //       price: 3999,
+    //       quantity: 1,
+    //       images: ["/placeholder.svg?height=64&width=64"],
+    //     },
+    //   ],
+    //   shippingAddress: {
+    //     id: "addr_1",
+    //     fullName: "John Doe",
+    //     mobileNumber: "9876543210",
+    //     addressLine1: "123 Main Street",
+    //     addressLine2: "Apartment 4B",
+    //     landmark: "Near Central Park",
+    //     city: "Mumbai",
+    //     state: "Maharashtra",
+    //     pinCode: "400001",
+    //     country: "India",
+    //     isDefault: true,
+    //     userId: "user_123",
+    //   },
+    //   paymentInfo: {
+    //     method: "cod",
+    //   },
+    //   subtotal: 6498,
+    //   shipping: 0,
+    //   tax: 454.86,
+    //   total: 6952.86,
+    //   status: "confirmed",
+    //   createdAt: new Date().toISOString(),
+    // }
 
     // Simulate API call
     setTimeout(() => {
-      setOrder(mockOrder)
+    //   setOrder(mockOrder)
       setIsLoading(false)
     }, 1000)
   }, [params.id])
@@ -85,7 +84,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
       <div className="container mx-auto px-4 py-12">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Order Not Found</h1>
-          <p className="mb-6">We couldn't find the order you're looking for.</p>
+          {/* <p className="mb-6">We couldn't find the order you're looking for.</p> */}
           <Button onClick={() => router.push("/")}>Return to Home</Button>
         </div>
       </div>
@@ -113,7 +112,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
               {order.items.map((item) => (
                 <div key={item.id} className="flex gap-4">
                   <div className="relative w-16 h-16 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
-                    <Image src={item.images[0] || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
+                    {/* <Image src={item.images[] || "/placeholder.svg"} alt={item.name} fill className="object-cover" /> */}
                   </div>
                   <div className="flex-grow">
                     <div className="flex justify-between">
@@ -178,16 +177,16 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
             </CardHeader>
             <CardContent>
               <div className="text-sm">
-                <p className="font-medium">
+                {/* <p className="font-medium">
                   {order.paymentInfo.method === "cod"
                     ? "Cash On Delivery"
                     : order.paymentInfo.method === "credit-card"
                       ? "Credit Card"
                       : "PayPal"}
-                </p>
-                {order.paymentInfo.method === "credit-card" && order.paymentInfo.cardNumber && (
+                </p> */}
+                {/* {order.paymentInfo.method === "credit-card" && order.paymentInfo.cardNumber && (
                   <p className="mt-1">**** **** **** {order.paymentInfo.cardNumber.slice(-4)}</p>
-                )}
+                )} */}
               </div>
             </CardContent>
           </Card>

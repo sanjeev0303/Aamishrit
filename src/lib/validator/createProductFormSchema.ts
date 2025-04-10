@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-const isServer = typeof window === "undefined";
 
 export const CreateProductFormSchema = z.object({
     name: z.string().min(1, "Name is required"),

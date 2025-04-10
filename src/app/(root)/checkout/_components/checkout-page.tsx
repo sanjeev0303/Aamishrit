@@ -7,12 +7,10 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
 import { createUserAddress, getUserAddress } from "@/https/api"
-import { clearCart } from "@/react-redux/slices/cartSlice"
 import { useAppSelector } from "@/react-redux/store"
 import type { Address, PaymentInfo } from "@/types"
 import { useRouter } from "next/navigation"
 import { startTransition, useEffect, useOptimistic, useState } from "react"
-import { useDispatch } from "react-redux"
 import { toast } from "sonner"
 import AddressForm from "../../profile/_components/address-list"
 import CheckoutItems from "./checkout-items"
@@ -217,11 +215,9 @@ export default function CheckoutPage() {
         throw new Error('Failed to create order');
       }
 
-      const data = await orderResult.json();
-
       // Clear cart (in a real app, this would dispatch to Redux)
-      const dispatch = useDispatch()
-      dispatch(clearCart())
+    //   const dispatch = useDispatch()
+    //   dispatch(clearCart())
 
       toast.dismiss()
       toast.success("Order placed successfully!")

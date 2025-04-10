@@ -11,7 +11,7 @@ interface RelatedProductsProps {
   isLoading: boolean
 }
 
-export default function RelatedProducts({ productId, relatedProducts, isLoading }: RelatedProductsProps) {
+export default function RelatedProducts({ relatedProducts, isLoading }: RelatedProductsProps) {
   if (isLoading) {
     return (
       <div className="mb-12">

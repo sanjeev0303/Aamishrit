@@ -2,28 +2,26 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import { Star } from "lucide-react"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Card, CardContent } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { toast } from "sonner"
-import { submitProductReview } from "@/actions/api"
+import { Textarea } from "@/components/ui/textarea"
 import type { Review } from "@/types"
+import { Star } from "lucide-react"
+import { useState } from "react"
+import { toast } from "sonner"
 
 interface ReviewSectionProps {
   productId: string
   productRating: number
   reviewCount: number
   reviews?: Review[]
-  isLoading: boolean
+  isLoading?: boolean
 }
 
 export default function ReviewSection({
-  productId,
+//   productId,
   productRating,
   reviewCount,
   reviews,
@@ -34,30 +32,30 @@ export default function ReviewSection({
   const [reviewRating, setReviewRating] = useState(5)
   const [showAllReviews, setShowAllReviews] = useState(false)
 
-  const queryClient = useQueryClient()
+//   const queryClient = useQueryClient()
 
-  const submitReviewMutation = useMutation({
-    mutationFn: submitProductReview,
-    onSuccess: () => {
-      // Invalidate and refetch reviews
-      queryClient.invalidateQueries({ queryKey: ["productReviews", productId] })
+//   const submitReviewMutation = useMutation({
+//     mutationFn: submitProductReview,
+//     onSuccess: () => {
+//       // Invalidate and refetch reviews
+//       queryClient.invalidateQueries({ queryKey: ["productReviews", productId] })
 
-      // Reset form
-      setReviewText("")
-      setReviewTitle("")
-      setReviewRating(5)
+//       // Reset form
+//       setReviewText("")
+//       setReviewTitle("")
+//       setReviewRating(5)
 
-      // Show success message
-      toast.success("Review Submitted", {
-        description: "Thank you for your feedback! Your review will be published after moderation.",
-      })
-    },
-    onError: (error) => {
-      toast.error("Failed to Submit Review", {
-        description: error instanceof Error ? error.message : "Please try again later.",
-      })
-    },
-  })
+//       // Show success message
+//       toast.success("Review Submitted", {
+//         description: "Thank you for your feedback! Your review will be published after moderation.",
+//       })
+//     },
+//     onError: (error) => {
+//       toast.error("Failed to Submit Review", {
+//         description: error instanceof Error ? error.message : "Please try again later.",
+//       })
+//     },
+//   })
 
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault()
@@ -76,14 +74,14 @@ export default function ReviewSection({
       return
     }
 
-    submitReviewMutation.mutate({
-      productId,
-      review: {
-        title: reviewTitle,
-        comment: reviewText,
-        rating: reviewRating,
-      },
-    })
+    // submitReviewMutation.mutate({
+    //   productId,
+    //   review: {
+    //     title: reviewTitle,
+    //     comment: reviewText,
+    //     rating: reviewRating,
+    //   },
+    // })
   }
 
   if (isLoading) {
@@ -191,9 +189,9 @@ export default function ReviewSection({
                       onChange={(e) => setReviewText(e.target.value)}
                       rows={4}
                     />
-                    <Button type="submit" className="w-full" disabled={submitReviewMutation.isPending}>
+                    {/* <Button type="submit" className="w-full" disabled={submitReviewMutation.isPending}>
                       {submitReviewMutation.isPending ? "Submitting..." : "Submit Review"}
-                    </Button>
+                    </Button> */}
                   </form>
                 </div>
               </CardContent>
@@ -270,9 +268,9 @@ export default function ReviewSection({
                     onChange={(e) => setReviewText(e.target.value)}
                     rows={4}
                   />
-                  <Button type="submit" className="w-full" disabled={submitReviewMutation.isPending}>
+                  {/* <Button type="submit" className="w-full" disabled={submitReviewMutation.isPending}>
                     {submitReviewMutation.isPending ? "Submitting..." : "Submit Review"}
-                  </Button>
+                  </Button> */}
                 </form>
               </div>
             </CardContent>

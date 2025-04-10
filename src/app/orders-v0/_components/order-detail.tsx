@@ -1,53 +1,60 @@
 "use client"
+import { ArrowLeft, Calendar, CheckCircle, Clock, CreditCard, MapPin, Package, Truck, XCircle } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
-import { useQuery } from "@tanstack/react-query"
-import { ArrowLeft, Package, Truck, CheckCircle, Clock, XCircle, MapPin, CreditCard, Calendar } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { getOrderById } from "@/actions/api"
 
 export default function OrderDetail({ id }: { id: string }) {
-  const {
-    data: order,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["order", id],
-    queryFn: () => getOrderById(id),
-  })
+//   const {
+//     data: order,
+//     isLoading,
+//     error,
+//   } = useQuery({
+//     queryKey: ["order", id],
+//     queryFn: () => getOrderById(id),
+//   })
 
-  if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="animate-pulse space-y-8">
-          <div className="h-8 w-48 bg-gray-200 rounded"></div>
-          <div className="h-24 bg-gray-200 rounded"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
-          <div className="h-48 bg-gray-200 rounded"></div>
-        </div>
-      </div>
-    )
-  }
+//   if (isLoading) {
+//     return (
+//       <div className="container mx-auto px-4 py-12">
+//         <div className="animate-pulse space-y-8">
+//           <div className="h-8 w-48 bg-gray-200 rounded"></div>
+//           <div className="h-24 bg-gray-200 rounded"></div>
+//           <div className="h-64 bg-gray-200 rounded"></div>
+//           <div className="h-48 bg-gray-200 rounded"></div>
+//         </div>
+//       </div>
+//     )
+//   }
 
-  if (error || !order) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Order Not Found</h2>
-          <p className="text-gray-700 mb-6">
-            We couldn't find the order you're looking for. It may have been removed or the ID is incorrect.
-          </p>
-          <Button asChild>
-            <Link href="/orders">Return to Orders</Link>
-          </Button>
-        </div>
-      </div>
-    )
-  }
+//   if (error || !order) {
+//     return (
+//       <div className="container mx-auto px-4 py-12">
+//         <div className="text-center py-12">
+//           <h2 className="text-2xl font-bold text-red-600 mb-4">Order Not Found</h2>
+//           <p className="text-gray-700 mb-6">
+//             We couldn't find the order you're looking for. It may have been removed or the ID is incorrect.
+//           </p>
+//           <Button asChild>
+//             <Link href="/orders">Return to Orders</Link>
+//           </Button>
+//         </div>
+//       </div>
+//     )
+//   }
+
+const order = {
+    id,
+    date: "2023-10-01",
+    status: "shipped",
+    trackingNumber: "123456789",
+    estimatedShipping: "2023-10-05",
+    estimatedDelivery: "2023-10-10",
+
+}
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -175,7 +182,7 @@ export default function OrderDetail({ id }: { id: string }) {
                 </div>
                 <div className="ml-4">
                   <h3 className="font-medium">Order Confirmed</h3>
-                  <p className="text-sm text-gray-500">{order.timeline?.confirmed || order.date}</p>
+                  {/* <p className="text-sm text-gray-500">{order.timeline?.confirmed || order.date}</p> */}
                 </div>
               </div>
 
@@ -197,7 +204,7 @@ export default function OrderDetail({ id }: { id: string }) {
                 </div>
                 <div className="ml-4">
                   <h3 className="font-medium">Processing</h3>
-                  <p className="text-sm text-gray-500">{order.timeline?.processing || "In progress"}</p>
+                  {/* <p className="text-sm text-gray-500">{order.timeline?.processing || "In progress"}</p> */}
                 </div>
               </div>
 
@@ -216,7 +223,7 @@ export default function OrderDetail({ id }: { id: string }) {
                 <div className="ml-4">
                   <h3 className="font-medium">Shipped</h3>
                   <p className="text-sm text-gray-500">
-                    {order.status === "shipped" || order.status === "delivered" ? order.timeline?.shipped : "Pending"}
+                    {/* {order.status === "shipped" || order.status === "delivered" ? order.timeline?.shipped : "Pending"} */}
                   </p>
                 </div>
               </div>
@@ -234,7 +241,7 @@ export default function OrderDetail({ id }: { id: string }) {
                 <div className="ml-4">
                   <h3 className="font-medium">Delivered</h3>
                   <p className="text-sm text-gray-500">
-                    {order.status === "delivered" ? order.timeline?.delivered : "Pending"}
+                    {/* {order.status === "delivered" ? order.timeline?.delivered : "Pending"} */}
                   </p>
                 </div>
               </div>
@@ -252,7 +259,7 @@ export default function OrderDetail({ id }: { id: string }) {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {order.items.map((item: any, index: number) => (
+                {/* {order.items.map((item: any, index: number) => (
                   <div key={index} className="flex gap-4">
                     <div className="relative w-20 h-20 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
                       <Image
@@ -273,7 +280,7 @@ export default function OrderDetail({ id }: { id: string }) {
                       <p className="text-sm text-gray-500 mt-1">Quantity: {item.quantity}</p>
                     </div>
                   </div>
-                ))}
+                ))} */}
               </div>
             </CardContent>
           </Card>
@@ -289,20 +296,20 @@ export default function OrderDetail({ id }: { id: string }) {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-500">Subtotal</span>
-                  <span>${order.subtotal.toFixed(2)}</span>
+                  {/* <span>${order.subtotal.toFixed(2)}</span> */}
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Shipping</span>
-                  <span>{order.shipping === 0 ? "Free" : `$${order.shipping.toFixed(2)}`}</span>
+                  {/* <span>{order.shipping === 0 ? "Free" : `$${order.shipping.toFixed(2)}`}</span> */}
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Tax</span>
-                  <span>${order.tax.toFixed(2)}</span>
+                  {/* <span>${order.tax.toFixed(2)}</span> */}
                 </div>
                 <Separator />
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
-                  <span>${order.total.toFixed(2)}</span>
+                  {/* <span>${order.total.toFixed(2)}</span> */}
                 </div>
               </div>
             </CardContent>
@@ -315,7 +322,7 @@ export default function OrderDetail({ id }: { id: string }) {
             <CardContent>
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <div>
+                {/* <div>
                   <p className="font-medium">{order.shippingAddress.name}</p>
                   <p className="text-gray-600">{order.shippingAddress.street}</p>
                   <p className="text-gray-600">
@@ -323,7 +330,7 @@ export default function OrderDetail({ id }: { id: string }) {
                   </p>
                   <p className="text-gray-600">{order.shippingAddress.country}</p>
                   <p className="text-gray-600">{order.shippingAddress.phone}</p>
-                </div>
+                </div> */}
               </div>
             </CardContent>
           </Card>
@@ -337,13 +344,13 @@ export default function OrderDetail({ id }: { id: string }) {
                 <div className="flex items-center gap-3">
                   <CreditCard className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="font-medium">{order.payment.method}</p>
-                    <p className="text-gray-600">**** **** **** {order.payment.cardLast4}</p>
+                    {/* <p className="font-medium">{order.payment.method}</p>
+                    <p className="text-gray-600">**** **** **** {order.payment.cardLast4}</p> */}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Calendar className="h-5 w-5 text-gray-400" />
-                  <p className="text-gray-600">Billed on {order.payment.date}</p>
+                  {/* <p className="text-gray-600">Billed on {order.payment.date}</p> */}
                 </div>
               </div>
             </CardContent>

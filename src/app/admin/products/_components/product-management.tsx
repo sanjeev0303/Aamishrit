@@ -1,83 +1,74 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
-  Search,
-  Plus,
-  MoreHorizontal,
-  Eye,
-  Edit,
-  Trash2,
-  X,
-  Upload,
-  Tag,
-  DollarSign,
-  Package,
-  Star,
+    DollarSign,
+    Edit,
+    Eye,
+    MoreHorizontal,
+    Plus,
+    Search,
+    Star,
+    Tag,
+    Trash2
 } from "lucide-react";
-import { toast } from "sonner";
+import { useState } from "react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { getCategories, updateProduct, deleteProduct } from "@/actions/admin";
-import { createProduct, getAllProducts } from "@/https/api";
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getAllProducts } from "@/https/api";
+import { Product } from "@/types";
 import CreateProductForm from "./create-product-form";
 
 export default function ProductManagement() {
-  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [stockFilter, setStockFilter] = useState("all");
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [formData, setFormData] = useState({
+  const [, setFormData] = useState({
     name: "",
     description: "",
     price: "",
-    categoryId: "",
+    category: "",
     stock: "",
     images: [] as string[],
     isActive: true,
@@ -91,58 +82,58 @@ export default function ProductManagement() {
   });
 
   // Update product mutation
-  const updateProductMutation = useMutation({
-    mutationFn: updateProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      setIsEditDialogOpen(false);
-      toast.success("Product updated successfully");
-    },
-    onError: (error) => {
-      toast.error("Failed to update product", {
-        description:
-          error instanceof Error ? error.message : "Please try again",
-      });
-    },
-  });
+//   const updateProductMutation = useMutation({
+//     mutationFn: updateProduct,
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["products"] });
+//       setIsEditDialogOpen(false);
+//       toast.success("Product updated successfully");
+//     },
+//     onError: (error) => {
+//       toast.error("Failed to update product", {
+//         description:
+//           error instanceof Error ? error.message : "Please try again",
+//       });
+//     },
+//   });
 
   // Delete product mutation
-  const deleteProductMutation = useMutation({
-    mutationFn: deleteProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      setIsDeleteDialogOpen(false);
-      toast.success("Product deleted successfully");
-    },
-    onError: (error) => {
-      toast.error("Failed to delete product", {
-        description:
-          error instanceof Error ? error.message : "Please try again",
-      });
-    },
-  });
+//   const deleteProductMutation = useMutation({
+//     mutationFn: deleteProduct,
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["products"] });
+//       setIsDeleteDialogOpen(false);
+//       toast.success("Product deleted successfully");
+//     },
+//     onError: (error) => {
+//       toast.error("Failed to delete product", {
+//         description:
+//           error instanceof Error ? error.message : "Please try again",
+//       });
+//     },
+//   });
 
-  const openProductDetails = (product: any) => {
+  const openProductDetails = (product: Product) => {
     setSelectedProduct(product);
     setIsViewDialogOpen(true);
   };
 
-  const openEditDialog = (product: any) => {
+  const openEditDialog = (product: Product) => {
     setSelectedProduct(product);
     setFormData({
       name: product.name,
       description: product.description,
       price: product.price.toString(),
-      categoryId: product.categoryId || "",
+      category: product.category.name || "",
       stock: product.stock.toString(),
-      images: product.images || [],
-      isActive: product.isActive,
-      isFeatured: product.isFeatured,
+      images: product.productImages || [],
+      isActive: product.isActive ?? false,
+      isFeatured: product.isFeatured ?? false,
     });
     setIsEditDialogOpen(true);
   };
 
-  const openDeleteDialog = (product: any) => {
+  const openDeleteDialog = (product: Product) => {
     setSelectedProduct(product);
     setIsDeleteDialogOpen(true);
   };
@@ -157,7 +148,7 @@ export default function ProductManagement() {
       name: "",
       description: "",
       price: "",
-      categoryId: "",
+      category: "",
       stock: "",
       images: [],
       isActive: true,
@@ -165,44 +156,44 @@ export default function ProductManagement() {
     });
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+//   const handleInputChange = (
+//     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+//   ) => {
+//     const { name, value } = e.target;
+//     setFormData((prev) => ({ ...prev, [name]: value }));
+//   };
 
-  const handleSwitchChange = (name: string, checked: boolean) => {
-    setFormData((prev) => ({ ...prev, [name]: checked }));
-  };
+//   const handleSwitchChange = (name: string, checked: boolean) => {
+//     setFormData((prev) => ({ ...prev, [name]: checked }));
+//   };
 
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+//   const handleSelectChange = (name: string, value: string) => {
+//     setFormData((prev) => ({ ...prev, [name]: value }));
+//   };
 
-  const handleUpdateProduct = (e: React.FormEvent) => {
-    e.preventDefault();
+//   const handleUpdateProduct = (e: React.FormEvent) => {
+//     e.preventDefault();
 
-    if (!selectedProduct) return;
+//     if (!selectedProduct) return;
 
-    updateProductMutation.mutate({
-      id: selectedProduct.id,
-      name: formData.name,
-      description: formData.description,
-      price: Number.parseFloat(formData.price),
-      categoryId: formData.categoryId || undefined,
-      stock: Number.parseInt(formData.stock),
-      images: formData.images,
-      isActive: formData.isActive,
-      isFeatured: formData.isFeatured,
-    });
-  };
+//     updateProductMutation.mutate({
+//       id: selectedProduct.id,
+//       name: formData.name,
+//       description: formData.description,
+//       price: Number.parseFloat(formData.price),
+//       categoryId: formData.categoryId || undefined,
+//       stock: Number.parseInt(formData.stock),
+//       images: formData.images,
+//       isActive: formData.isActive,
+//       isFeatured: formData.isFeatured,
+//     });
+//   };
 
-  const handleDeleteProduct = () => {
-    if (!selectedProduct) return;
+//   const handleDeleteProduct = () => {
+//     if (!selectedProduct) return;
 
-    deleteProductMutation.mutate(selectedProduct.id);
-  };
+//     deleteProductMutation.mutate(selectedProduct.id);
+//   };
 
   // Filter products based on search query
   const filteredProducts =
@@ -315,7 +306,7 @@ export default function ProductManagement() {
                     <TableRow key={product.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden">
+                          {/* <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden">
                             {product?.productImages &&
                             product.productImages.length > 0 ? (
                               <img
@@ -328,7 +319,7 @@ export default function ProductManagement() {
                             ) : (
                               <Package className="h-6 w-6 text-gray-400" />
                             )}
-                          </div>
+                          </div> */}
                           <div>
                             <p className="font-medium">{product.name}</p>
                             <p className="text-sm text-gray-500 truncate max-w-[200px]">
@@ -436,11 +427,11 @@ export default function ProductManagement() {
             <div className="py-4">
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="md:w-1/3">
-                  <div className="aspect-square rounded-md bg-gray-100 overflow-hidden">
-                    {selectedProduct.images &&
-                    selectedProduct.images.length > 0 ? (
+                  {/* <div className="aspect-square rounded-md bg-gray-100 overflow-hidden">
+                    {selectedProduct.productImages &&
+                    selectedProduct.productImages.length > 0 ? (
                       <img
-                        src={selectedProduct.images[0] || "/placeholder.svg"}
+                        src={selectedProduct.productImages[0] || "/placeholder.svg"}
                         alt={selectedProduct.name}
                         className="h-full w-full object-cover"
                       />
@@ -449,23 +440,23 @@ export default function ProductManagement() {
                         <Package className="h-12 w-12 text-gray-400" />
                       </div>
                     )}
-                  </div>
+                  </div> */}
 
-                  {selectedProduct.images &&
-                    selectedProduct.images.length > 1 && (
+                  {selectedProduct.productImages &&
+                    selectedProduct.productImages.length > 1 && (
                       <div className="grid grid-cols-4 gap-2 mt-2">
-                        {selectedProduct.images
+                        {selectedProduct.productImages
                           .slice(1, 5)
                           .map((image: string, index: number) => (
                             <div
                               key={index}
                               className="aspect-square rounded-md bg-gray-100 overflow-hidden"
                             >
-                              <img
+                              {/* <img
                                 src={image || "/placeholder.svg"}
                                 alt={`${selectedProduct.name} ${index + 2}`}
                                 className="h-full w-full object-cover"
-                              />
+                              /> */}
                             </div>
                           ))}
                       </div>
@@ -614,7 +605,7 @@ export default function ProductManagement() {
                         <div className="p-4 border rounded-md">
                           <h4 className="text-sm font-medium mb-1">SKU</h4>
                           <p className="text-gray-700">
-                            {selectedProduct.sku || "Not available"}
+                            {/* {selectedProduct.sku || "Not available"} */}
                           </p>
                         </div>
 
@@ -639,7 +630,7 @@ export default function ProductManagement() {
                         )}
                       </div>
 
-                      {selectedProduct.variants &&
+                      {/* {selectedProduct.variants &&
                         selectedProduct.variants.length > 0 && (
                           <div className="mt-4">
                             <h4 className="text-sm font-medium mb-2">
@@ -680,7 +671,7 @@ export default function ProductManagement() {
                               </Table>
                             </div>
                           </div>
-                        )}
+                        )} */}
                     </TabsContent>
 
                     <TabsContent value="sales" className="space-y-4 mt-4">
@@ -689,34 +680,34 @@ export default function ProductManagement() {
                           <h4 className="text-sm font-medium mb-1">
                             Total Sales
                           </h4>
-                          <p className="text-lg font-semibold">
+                          {/* <p className="text-lg font-semibold">
                             {selectedProduct.totalSales
                               ? `${selectedProduct.totalSales} units`
                               : "0 units"}
-                          </p>
+                          </p> */}
                         </div>
 
                         <div className="p-4 border rounded-md">
                           <h4 className="text-sm font-medium mb-1">Revenue</h4>
-                          <p className="text-lg font-semibold">
+                          {/* <p className="text-lg font-semibold"> */}
                             $
-                            {selectedProduct.revenue
+                            {/* {selectedProduct.revenue
                               ? selectedProduct.revenue
                               : "0.00"}
-                          </p>
+                          </p> */}
                         </div>
 
                         <div className="p-4 border rounded-md">
                           <h4 className="text-sm font-medium mb-1">
                             Last Ordered
                           </h4>
-                          <p className="text-gray-700">
+                          {/* <p className="text-gray-700">
                             {selectedProduct.lastOrdered
                               ? new Date(
                                   selectedProduct.lastOrdered
                                 ).toLocaleDateString()
                               : "Never"}
-                          </p>
+                          </p> */}
                         </div>
                       </div>
 
@@ -769,7 +760,7 @@ export default function ProductManagement() {
             <DialogDescription>Update product information</DialogDescription>
           </DialogHeader>
 
-          <form onSubmit={handleUpdateProduct} className="py-4 space-y-6">
+          {/* <form onSubmit={handleUpdateProduct} className="py-4 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -947,7 +938,7 @@ export default function ProductManagement() {
                 {updateProductMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </DialogFooter>
-          </form>
+          </form> */}
         </DialogContent>
       </Dialog>
 
@@ -966,16 +957,16 @@ export default function ProductManagement() {
             <div className="py-4">
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden">
-                  {selectedProduct.images &&
-                  selectedProduct.images.length > 0 ? (
+                  {/* {selectedProduct.productImages &&
+                  selectedProduct.productImages.length > 0 ? (
                     <img
-                      src={selectedProduct.images[0] || "/placeholder.svg"}
+                      src={selectedProduct.productImages[0] || "/placeholder.svg"}
                       alt={selectedProduct.name}
                       className="h-full w-full object-cover"
                     />
                   ) : (
                     <Package className="h-6 w-6 text-gray-400" />
-                  )}
+                  )} */}
                 </div>
                 <div>
                   <p className="font-medium">{selectedProduct.name}</p>
@@ -994,7 +985,7 @@ export default function ProductManagement() {
             >
               Cancel
             </Button>
-            <Button
+            {/* <Button
               variant="destructive"
               onClick={handleDeleteProduct}
               disabled={deleteProductMutation.isPending}
@@ -1002,7 +993,7 @@ export default function ProductManagement() {
               {deleteProductMutation.isPending
                 ? "Deleting..."
                 : "Delete Product"}
-            </Button>
+            </Button> */}
           </DialogFooter>
         </DialogContent>
       </Dialog>

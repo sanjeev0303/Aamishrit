@@ -1,30 +1,18 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navItems } from "@/constants/moblie-nav-list";
 import { useIsMobile, useIsTablet } from "@/hooks/use-mobile";
+import { User } from "@prisma/client";
 import {
-  CircleUser,
-  Menu,
-  MenuIcon,
-  Package2,
-  SearchIcon,
-  ShoppingCartIcon,
-  User2Icon,
+    MenuIcon,
+    SearchIcon,
+    ShoppingCartIcon
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { NavigationMenuDemo } from "./navigation-menu";
 import UserButton from "./use-button";
-import { User } from "@prisma/client";
 
 
 

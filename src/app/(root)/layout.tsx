@@ -1,5 +1,4 @@
 import { onAuthenticateUser } from '@/actions/user'
-import Footer from '@/components/global/footer'
 import NavigationBar from '@/components/global/navigation'
 import { redirect } from 'next/navigation'
 import React from 'react'

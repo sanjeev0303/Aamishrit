@@ -1,23 +1,20 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { ArrowLeft, ChevronLeft, ChevronRight, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, ChevronLeft, ChevronRight, Heart, Minus, Plus, ShoppingBag, Star } from "lucide-react"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { useWishlist } from "@/context/wishlist-context"
-import type { Product } from "@/types"
-import { useAppDispatch } from "@/react-redux/store"
 import { getProductById } from "@/https/api"
 import { addToCart } from "@/react-redux/slices/cartSlice"
+import { useAppDispatch } from "@/react-redux/store"
+import type { Product } from "@/types"
+import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import { Separator } from "../ui/separator"
-import { Card, CardContent } from "../ui/card"
-import { Textarea } from "../ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import { useQuery } from "@tanstack/react-query"
 
 interface ProductDetailProps {
   id: string
@@ -29,7 +26,6 @@ export default function ProductDetail({ id }: ProductDetailProps) {
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist()
   const [showAllThumbnails, setShowAllThumbnails] = useState(false)
   const [product, setProduct] = useState<Product | null>(null)
-  const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
   const [isWishlisted, setIsWishlisted] = useState(false)
@@ -64,8 +60,6 @@ export default function ProductDetail({ id }: ProductDetailProps) {
         }
       } catch (error) {
         toast.error("Failed to load product")
-      } finally {
-        setLoading(false)
       }
     }
 

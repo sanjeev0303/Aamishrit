@@ -170,7 +170,7 @@ export function FileUploader(props: FileUploaderProps) {
 
   function onRemove(index: number) {
     if (!files) return;
-    const newFiles = files.filter((_: any, i: any) => i !== index);
+    const newFiles = files.filter((_: File, i: number) => i !== index);
     setFiles(newFiles);
     onValueChange?.(newFiles);
   }
@@ -179,7 +179,7 @@ export function FileUploader(props: FileUploaderProps) {
   React.useEffect(() => {
     return () => {
       if (!files) return;
-      files.forEach((file: any) => {
+      files.forEach((file: File) => {
         if (isFileWithPreview(file)) {
           URL.revokeObjectURL(file.preview);
         }
@@ -206,9 +206,10 @@ export function FileUploader(props: FileUploaderProps) {
   );
 
   React.useEffect(() => {
-    document.addEventListener('paste', onPaste as any);
+    const handlePaste = (event: ClipboardEvent) => onPaste(event as unknown as React.ClipboardEvent<HTMLDivElement>);
+    document.addEventListener('paste', handlePaste);
     return () => {
-      document.removeEventListener('paste', onPaste as any);
+      document.removeEventListener('paste', handlePaste);
     };
   }, [onPaste]);
 
@@ -278,7 +279,7 @@ export function FileUploader(props: FileUploaderProps) {
       {files?.length ? (
         <ScrollArea className="h-fit w-full px-3">
           <div className="flex max-h-48 flex-col gap-4">
-            {files?.map((file: any, index: any) => (
+            {files?.map((file: File, index: number) => (
               <FileCard
                 key={index}
                 file={file}

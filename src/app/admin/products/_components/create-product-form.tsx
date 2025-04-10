@@ -33,8 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCategories } from "@/actions/admin";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Switch } from "@/components/ui/switch";
 import { createProduct } from "@/https/api";
 import { toast } from "sonner";
@@ -65,14 +64,14 @@ const CreateProductForm = ({
     defaultValues: formData,
   });
 
-  const onSubmit = (data: z.infer<typeof ProductSchema>) => {
-    console.log("form data: ", data);
-  };
+//   const onSubmit = (data: z.infer<typeof ProductSchema>) => {
+//     console.log("form data: ", data);
+//   };
 
-  const { data: categories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+//   const { data: categories } = useQuery({
+//     queryKey: ["categories"],
+//     queryFn: () => getCategory,
+//   });
 
   // Create product mutation
   const createProductMutation = useMutation({
@@ -105,9 +104,7 @@ const CreateProductForm = ({
     });
   };
 
-  const handleCreateProduct = (
-    values: z.infer<typeof ProductSchema>
-  ) => {
+  const handleCreateProduct = (values: z.infer<typeof ProductSchema>) => {
     const data = new FormData();
     data.append("name", values.name);
     data.append("description", values.description);
@@ -191,15 +188,11 @@ const CreateProductForm = ({
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="jaggery">
-                              Jaggery
-                            </SelectItem>
+                            <SelectItem value="jaggery">Jaggery</SelectItem>
                             <SelectItem value="herbal-tea">
                               Herbal-Tea
                             </SelectItem>
-                            <SelectItem value="cookies">
-                              Cookies
-                            </SelectItem>
+                            <SelectItem value="cookies">Cookies</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

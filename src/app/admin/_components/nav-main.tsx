@@ -1,18 +1,17 @@
 "use client"
 
-import { MailIcon, PlusCircleIcon, type LucideIcon } from "lucide-react"
+import { type LucideIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    useSidebar,
 } from "@/components/ui/sidebar"
-import { useRouter } from "next/navigation"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useRouter } from "next/navigation"
 
 export function NavMain({
   items,
@@ -34,12 +33,9 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title} >
-              <SidebarMenuButton className="mt-3" onClick={(event) => {
-                router.push(`${item.url}`)
-                {
-                    isMobile && toggleSidebar()
-                }
-
+              <SidebarMenuButton className="mt-3" onClick={() => {
+                router.push(`${item.url}`);
+                if (isMobile) toggleSidebar();
               }} tooltip={item.title}>
                 {item.icon && <item.icon className="w-7 h-7 mr-5" />}
                 <span className="text-md font-medium text-gray-700">{item.title}</span>

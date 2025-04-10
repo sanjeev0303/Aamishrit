@@ -8,7 +8,7 @@ import { VideoCallSection } from "../_components/video-call-section";
 import { VisitorsSection } from "../_components/visitors-section";
 
 export default function SidebarPage() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [ , setActiveTab] = useState("overview");
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">

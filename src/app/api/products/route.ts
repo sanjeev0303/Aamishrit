@@ -1,7 +1,8 @@
-import { client } from "@/lib/prisma"
-import { ProductSchema } from "@/lib/validator/productSchema"
-import { writeFile } from "fs/promises"
-import path from "path"
+import { client } from "@/lib/prisma";
+import { ProductSchema } from "@/lib/validator/productSchema";
+import { writeFile } from "fs/promises";
+import { NextResponse } from "next/server";
+import path from "path";
 export async function POST(request: Request) {
     try {
         const contentType = request.headers.get('content-type');
@@ -108,9 +109,9 @@ export async function GET() {
         });
 
 
-        return Response.json({ allProducts })
+        return NextResponse.json({ allProducts })
     } catch (error) {
-        return Response.json(
+        return NextResponse.json(
             { message: "Server error" },
             { status: 500 }
         )

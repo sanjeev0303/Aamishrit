@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import {motion, useScroll, useTransform} from "framer-motion"
-import { useRef } from "react"
 
 const categories = [
   {
@@ -30,14 +29,14 @@ const categories = [
 
 const ShopSection = () => {
 
-    const sectionRef = useRef(null)
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"]
-    })
+    // const sectionRef = useRef(null)
+    // const { scrollYProgress } = useScroll({
+    //     target: sectionRef,
+    //     offset: ["start end", "end start"]
+    // })
 
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [100, 0, 0, 100]);
+    // const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+//   const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [100, 0, 0, 100]);
 
   return (
     <section className="py-16 px-4 md:px-8">
