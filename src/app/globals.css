@@ -3,10 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* @theme{
-
-} */
-
 
 @theme inline {
     --color-brown-background: #FDF7F0;
