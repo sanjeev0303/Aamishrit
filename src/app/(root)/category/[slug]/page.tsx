@@ -15,8 +15,8 @@ type Props = {
   }
 }
 
-export default function CategoryPage({ params }: Props) {
-  const { slug } = params
+export default async function CategoryPage({ params }: Props) {
+  const { slug } = await params
 
   const {data: category} = useQuery({
     queryKey: ["categoryById", slug],
