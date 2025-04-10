@@ -22,7 +22,7 @@ useEffect(() => {
         setSlug(slug);
     }
     fetchSlug()
-}, [slug])
+}, [params])
 
 
   const { data: category } = useQuery({

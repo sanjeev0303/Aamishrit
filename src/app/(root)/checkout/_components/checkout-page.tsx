@@ -270,11 +270,12 @@ export default function CheckoutPage() {
             <CardContent>
               {step === 1 ? (
                 isAddingAddress ? (
-                  <AddressForm
-                    onSubmit={handleAddAddress}
-                    onCancel={() => setIsAddingAddress(false)}
-                    isSubmitting={false}
-                  />
+                //   <AddressForm
+                //     onSubmit={handleAddAddress}
+                //     onCancel={() => setIsAddingAddress(false)}
+                //     isSubmitting={false}
+                //   />
+                <div></div>
                 ) : (
                   <div className="space-y-6">
                     {isAddressesLoading ? (

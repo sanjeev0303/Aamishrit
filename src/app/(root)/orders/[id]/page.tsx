@@ -25,7 +25,7 @@ export default function OrderConfirmationPage({
     setId(id);
    }
    fetchId()
-  }, [id])
+  }, [params])
 
 
   useEffect(() => {
