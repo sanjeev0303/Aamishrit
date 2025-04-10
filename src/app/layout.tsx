@@ -3,30 +3,12 @@ import { QueryProvider } from "@/providers/query-provider"
 import { ReduxProvider } from "@/react-redux/redux-provider"
 import { ClerkProvider } from "@clerk/nextjs"
 import type { Metadata } from "next"
-import { Inter, Geist as Geist_Sans, Geist_Mono } from "next/font/google"
+import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 import "./globals.css"
 
-// Configure the Inter font
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-})
 
-// Configure Geist Sans
-const geistSans = Geist_Sans({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-geist-sans",
-})
-
-// Configure Geist Mono
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-geist-mono",
-})
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Amishrit",
@@ -43,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={inter.className}>
         <ClerkProvider>
           <ReduxProvider>
             <QueryProvider>
