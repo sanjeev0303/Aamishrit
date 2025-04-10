@@ -9,17 +9,17 @@ import "./globals.css";
 
 
 const geistSans = Geist({
-    variable: "--font-geist-sans",
     subsets: ["latin"],
     display: "swap",
-    preload: true,
+    adjustFontFallback: true,
+    variable: "--font-geist-sans",
 });
 
 const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
     subsets: ["latin"],
     display: "swap",
-    preload: true,
+    adjustFontFallback: true,
+    variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
