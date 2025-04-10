@@ -2,12 +2,11 @@
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navItems } from "@/constants/moblie-nav-list";
-import { useIsMobile, useIsTablet } from "@/hooks/use-mobile";
 import { User } from "@prisma/client";
 import {
-    MenuIcon,
-    SearchIcon,
-    ShoppingCartIcon
+  MenuIcon,
+  SearchIcon,
+  ShoppingCartIcon
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,17 +16,14 @@ import UserButton from "./use-button";
 
 
 type NavigationBarProps = {
-    user: User
+  user: User
 }
 
 
-const NavigationBar = ({user}: NavigationBarProps) => {
-  const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
-
+const NavigationBar = ({ user }: NavigationBarProps) => {
   return (
     <div className="bg-gradient-to-r from-[#8B5A2B] to-[#A67C52] shadow-md">
-      {isMobile || isTablet ? (
+      {(
         <div className="fixed top-0 z-10 w-full flex justify-between sm:landscape:pt-4 px-4 py-2 pt-4 bg-gradient-to-r from-[#8B5A2B] to-[#A67C52] shadow-md">
           <div>
             <Sheet>
@@ -90,25 +86,25 @@ const NavigationBar = ({user}: NavigationBarProps) => {
             <ShoppingCartIcon className="w-6 h-6" />
           </div>
         </div>
-      ) : (
-        <div className="w-full fixed top-0 z-10  px-12 py-3 flex items-center justify-between pt-5 bg-gradient-to-r from-[#8B5A2B] to-[#A67C52] shadow-md">
-          <div className="flex gap-8">
-           <Link href={"/"}>
-           <Image src={"/logo.png"} alt="logo" width={170} height={100} priority={true} />
-           </Link>
-          </div>
+      ) } (
+      <div className="w-full fixed top-0 z-10  px-12 py-3 flex items-center justify-between pt-5 bg-gradient-to-r from-[#8B5A2B] to-[#A67C52] shadow-md">
+        <div className="flex gap-8">
+          <Link href={"/"}>
+            <Image src={"/logo.png"} alt="logo" width={170} height={100} priority={true} />
+          </Link>
+        </div>
 
-         <div className="flex gap-8 items-center">
-         <NavigationMenuDemo />
-         <div className="flex gap-5 items-center">
+        <div className="flex gap-8 items-center">
+          <NavigationMenuDemo />
+          <div className="flex gap-5 items-center">
             <UserButton user={user} />
             <Link href={"/cart"}>
-            <ShoppingCartIcon className="w-7 h-7" />
+              <ShoppingCartIcon className="w-7 h-7" />
             </Link>
           </div>
-         </div>
         </div>
-      )}
+      </div>
+      )
     </div>
   );
 };
