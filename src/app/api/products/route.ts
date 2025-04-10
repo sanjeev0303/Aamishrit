@@ -2,7 +2,6 @@ import { client } from "@/lib/prisma"
 import { ProductSchema } from "@/lib/validator/productSchema"
 import { writeFile } from "fs/promises"
 import path from "path"
-import { NextRequest } from "next/server"
 export async function POST(request: Request) {
     try {
         const contentType = request.headers.get('content-type');

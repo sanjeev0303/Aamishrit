@@ -1,18 +1,18 @@
 "use client"
 
 
-import Image from "next/image"
-import { notFound } from "next/navigation"
-import { Suspense } from "react"
 import ProductGrid from "@/components/product/product-grid"
 import { getCategory } from "@/https/api"
 import { useQuery } from "@tanstack/react-query"
+import Image from "next/image"
+import { notFound } from "next/navigation"
+import { Suspense } from "react"
 import ProductGridSkeleton from "../../../../components/product/Product-grid-skeleton"
 
 type Params = { slug: string }
 
-export default function CategoryPage({ params }: { params: Params}) {
-  const { slug } = params
+export default async function CategoryPage({ params }: { params: Params}) {
+  const { slug } = await Promise.resolve(params)
 
   const {data: category} = useQuery({
     queryKey: ["categoryById", slug],
