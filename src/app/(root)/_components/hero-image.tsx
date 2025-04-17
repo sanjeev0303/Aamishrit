@@ -7,7 +7,7 @@ import { motion } from "framer-motion"
 
 export const HeroImage = () => {
   const imageRef = useRef<HTMLDivElement>(null)
-  
+
   useEffect(() => {
     const handleResize = () => {
       if (imageRef.current && window.innerWidth >= 1024) {
@@ -43,7 +43,7 @@ export const HeroImage = () => {
           className="w-full h-full"
         >
           <Image
-            src={"/hero-image.jpg"}
+            src={"/Background.jpg"}
             alt="hero-image"
             width={1500}
             height={1000}
