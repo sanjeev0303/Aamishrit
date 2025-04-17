@@ -49,7 +49,7 @@ const { slug } = params
       <div className="w-full">
         <div className="bg-white rounded-lg shadow overflow-hidden mb-8">
           {category.productImages && (
-            <div className="relative h-48 md:h-64 w-full">
+            <div className="relative lg:h-110 md:h-64 w-full">
               <Image
                 src={category.productImages[0] || "/placeholder.svg?height=300&width=800" || "/placeholder.svg"}
                 alt={category.name}
@@ -65,12 +65,6 @@ const { slug } = params
           {!category.productImages && (
             <div className="p-6">
               <h1 className="text-3xl font-bold">{category.name}</h1>
-            </div>
-          )}
-
-          {category.description && (
-            <div className="p-6 pt-0 border-b">
-              <p className="text-gray-600">{category.description}</p>
             </div>
           )}
         </div>
