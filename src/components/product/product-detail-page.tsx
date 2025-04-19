@@ -32,16 +32,17 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
   const [isInWishlist, setIsInWishlist] = useState(false)
   const [showAllThumbnails, setShowAllThumbnails] = useState(false)
 
-  console.log("product category: ", product);
-
 
   const unitMap: Record<string, string> = {
-    "Jaggery": "/kg",
-    "Herbal Tea": "/30g",
-    "Cookies": "/200g",
+    "jaggery": "/kg",
+    "herbal tea": "/30g",
+    "cookies": "/200g",
   };
 
-
+  const getUnit = (categoryName?: string) => {
+    if (!categoryName) return "";
+    return unitMap[categoryName.trim().toLowerCase()] || "";
+  };
   // Fetch related products
 //   const { data: relatedProducts, isLoading: isRelatedLoading } = useQuery({
 //     queryKey: ["relatedProducts", params.id],
@@ -222,12 +223,13 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
         </div>
 
         <div className="flex items-baseline gap-3">
-          <span className="text-3xl font-semibold text-[#6B4226]">{formatPrice(product?.price)}</span>
-          <span>
-          {unitMap[product?.Category?.[0]?.name] || ""}
-          </span>
-
-        </div>
+  <span className="text-3xl font-semibold text-[#6B4226]">
+    {formatPrice(product?.price)}
+  </span>
+  <span>
+  {getUnit(Array.isArray(product?.Category) ? product?.Category[0]?.name : undefined)}
+</span>
+</div>
 
         <p className="text-[#8B5A2B] leading-relaxed line-clamp-5 md:line-clamp-3">{product?.description}</p>
 

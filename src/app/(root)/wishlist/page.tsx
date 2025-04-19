@@ -72,8 +72,11 @@ const WishlistPage = () => {
     return null; // Prevents hydration error
   }
 
-  console.log("wishlist item: ", wishlistItems.map((item) => console.log("item: ", item.ID)
-   ));
+  const unitMap: Record<string, string> = {
+    "Jaggery": "/kg",
+    "Herbal Tea": "/30g",
+    "Cookies": "/200g",
+  };
 
 
   return (
@@ -139,7 +142,7 @@ const WishlistPage = () => {
                   {item.name}
                 </Link>
                 <div className="mt-1 font-bold text-brown-700">
-                  {formatPrice(item.price)}
+                  {formatPrice(item.price)}{unitMap[item?.Category[0]?.name] || ""}
                 </div>
               </div>
               <div>
