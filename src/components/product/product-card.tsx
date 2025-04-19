@@ -89,9 +89,18 @@ export default function ProductCard({ product }: ProductCardProps) {
       <h3 className="font-semibold text-lg text-brown-800 mb-1 line-clamp-1 transition-colors group-hover:text-brown-700">
         {product.name}
       </h3>
-      <p className="text-brown-700 text-xl font-bold">
-        {formatPrice(product.price)}
-      </p>
+      <div className="flex justify-between items-center">
+                            <span className="text-lg font-bold text-brown-700">
+                              {formatPrice(product?.price)}{" "}
+                              {product?.Category[0]?.name === "Jaggery"
+                                ? "/1kg"
+                                : product?.Category[0]?.name === "Herbal Tea"
+                                ? "/30g"
+                                : product?.Category[0]?.name === "Cookies"
+                                ? "/200g"
+                                : ""}
+                            </span>
+                          </div>
     </div>
 
     {/* Add to Cart (Mobile View) */}

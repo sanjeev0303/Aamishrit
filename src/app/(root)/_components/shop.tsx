@@ -10,11 +10,6 @@ const ShopSection = () => {
   // Fetch categories using the custom hook
   const { data: categories, isLoading } = useAllCategories();
 
-  console.log(
-    "shop categories: ",
-    categories?.map((item) => console.log("category Id: ", item.ID))
-  );
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

@@ -128,14 +128,24 @@ export interface Product {
     updated_at: string
   }
 
-  export interface Category {
-    ID: number | string
-    name: string
-    description: string
-    products: Product[] // many-to-many
-    images: string[] // pq.StringArray equivalent
-    created_at: string
-    updated_at: string
+//   export interface Category {
+//     ID: number | string
+//     name: string
+//     description: string
+//     products: Product[] // many-to-many
+//     images: string[] // pq.StringArray equivalent
+//     created_at: string
+//     updated_at: string
+//   }
+
+export interface Category {
+    ID: number;
+    name: string;
+    description: string;
+    images?: string[];
+    Products?: Product[];
+    CreatedAt?: string;
+    UpdatedAt?: string;
   }
 
   export interface Review {

@@ -32,6 +32,15 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
   const [isInWishlist, setIsInWishlist] = useState(false)
   const [showAllThumbnails, setShowAllThumbnails] = useState(false)
 
+  console.log("product category: ", product);
+
+
+  const unitMap: Record<string, string> = {
+    "Jaggery": "/kg",
+    "Herbal Tea": "/30g",
+    "Cookies": "/200g",
+  };
+
 
   // Fetch related products
 //   const { data: relatedProducts, isLoading: isRelatedLoading } = useQuery({
@@ -214,9 +223,10 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
 
         <div className="flex items-baseline gap-3">
           <span className="text-3xl font-semibold text-[#6B4226]">{formatPrice(product?.price)}</span>
-          {/* {product.originalPrice && (
-            <span className="text-lg text-[#8B5A2B] line-through">{product.originalPrice}</span>
-          )} */}
+          <span>
+          {unitMap[product?.Category?.[0]?.name] || ""}
+          </span>
+
         </div>
 
         <p className="text-[#8B5A2B] leading-relaxed line-clamp-5 md:line-clamp-3">{product?.description}</p>

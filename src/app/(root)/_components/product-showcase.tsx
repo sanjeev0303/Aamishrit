@@ -236,16 +236,23 @@ const ProductShowcase = () => {
 
                         <div className="p-5 flex flex-col justify-between">
                           <h4 className="text-xl font-semibold text-brown-800 mb-2 line-clamp-1">
-                            {product.name}
+                            {product?.name}
                           </h4>
-                          {product.description && (
+                          {product?.description && (
                             <p className="text-sm text-brown-700/70 line-clamp-2 mb-2">
                               {product.description}
                             </p>
                           )}
                           <div className="flex justify-between items-center">
                             <span className="text-lg font-bold text-brown-700">
-                              {formatPrice(product.price)}
+                              {formatPrice(product?.price)}{" "}
+                              {product?.Category[0]?.name === "Jaggery"
+                                ? "/1kg"
+                                : product?.Category[0]?.name === "Herbal Tea"
+                                ? "/30g"
+                                : product?.Category[0]?.name === "Cookies"
+                                ? "/200g"
+                                : ""}
                             </span>
                           </div>
                         </div>

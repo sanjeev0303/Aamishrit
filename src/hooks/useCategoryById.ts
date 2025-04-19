@@ -1,5 +1,5 @@
-import { getCategoryById } from "@/api/category";
 import { useQuery } from "@tanstack/react-query";
+import { getCategoryById } from "@/api/category";
 
 export function useCategory(id: string | number) {
     return useQuery({

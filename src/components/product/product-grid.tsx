@@ -11,7 +11,7 @@ import ProductCard from "./product-card";
 
 interface ProductGridProps {
   featured?: boolean;
-  categorySlug?: string | number;
+  categoryId?: string | number
   limit?: number;
 }
 

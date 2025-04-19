@@ -1,66 +1,53 @@
-"use client"
+// app/categories/[id]/page.tsx
+import { getCategoryById } from "@/api/category"
+import { notFound } from "next/navigation"
+import ProductGrid from "@/components/product/product-grid"
+import ProductGridSkeleton from "@/components/product/Product-grid-skeleton"
+import Image from "next/image"
+import { Suspense } from "react"
 
-import { useCategory } from "@/hooks/useCategoryById";
-import { notFound } from "next/navigation";
-import ProductGrid from "@/components/product/product-grid";
-import ProductGridSkeleton from "@/components/product/Product-grid-skeleton";
-import Image from "next/image";
-import { Suspense, use } from "react";
-import { cn } from "@/lib/utils";
+export default async function CategoryPage({
+  params,
+}: {
+  params: { id: string | number }
+}) {
+  const category = await getCategoryById(params.id)
 
-export default function CategoryPage({ params }: { params: Promise<{ id: string | number }> }) {
-    const { id } = use(params); // ✅ Unwrap the Promise using React.use()
-    const { data: category, isLoading } = useCategory(id);
+  if (!category) {
+    notFound()
+  }
 
-    if (isLoading) {
-      return <ProductGridSkeleton count={12} />;
-    }
-
-    if (!category) {
-      notFound();
-    }
   return (
-    <div className="bg-brown-50 min-h-screen">
-      {/* Category Banner */}
-      <div className="relative w-full h-60 md:h-96 overflow-hidden">
-        {category.images?.[0] && (
-          <Image
-            src={category.images[0]}
-            alt={category.name}
-            fill
-            className="object-cover"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-r from-brown-900/70 to-brown-700/30 flex items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-brown-100 drop-shadow-md">
-            {category.name}
-          </h1>
-        </div>
-      </div>
-
-      {/* Description Section */}
-      <div className="container mx-auto px-4 md:px-8 lg:px-16 py-12">
-        <div className="bg-white/70 backdrop-blur-sm border border-brown-200 rounded-xl shadow-xl p-6 md:p-10">
-          {category.description && (
-            <p className="text-brown-800 text-lg leading-relaxed max-w-3xl mx-auto text-center">
-              {category.description}
-            </p>
+    <div className="container mx-auto px-4 py-8">
+      <div className="w-full">
+        <div className="bg-white rounded-lg shadow overflow-hidden mb-8">
+          {category.images?.[0] && (
+            <div className="relative h-48 md:h-64 w-full">
+              <Image
+                src={category.images[0]}
+                alt={category.name}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <h1 className="text-3xl md:text-4xl font-bold text-white">
+                  {category.name}
+                </h1>
+              </div>
+            </div>
           )}
+
+          <div className="p-6 pt-0 border-b">
+            <p className="text-gray-600">{category.description}</p>
+          </div>
         </div>
 
-        {/* Products Title */}
-        <div className="text-center mt-16 mb-10">
-          <h2 className="text-3xl md:text-4xl font-semibold text-brown-800">
-            Explore Our Products
-          </h2>
-          <div className="mx-auto mt-3 h-1 w-16 bg-gradient-to-r from-brown-500 via-brown-700 to-brown-500 rounded-full" />
-        </div>
-
-        {/* Product Grid */}
+        {/* Products */}
+        <h2 className="text-2xl font-bold mb-6">Products</h2>
         <Suspense fallback={<ProductGridSkeleton count={12} />}>
-          <ProductGrid categorySlug={category.ID} />
+          <ProductGrid categoryId={params.id} />
         </Suspense>
       </div>
     </div>
-  );
+  )
 }

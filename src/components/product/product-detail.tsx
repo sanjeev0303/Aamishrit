@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "@/store/store"
 import { getProductsById } from "@/api/products"
 import { addToCart } from "@/store/slices/cartSlice"
 import { addToWishlist, removeFromWishlist } from "@/store/slices/wishlistSlice"
+import { formatPrice } from "@/lib/utils"
 
 interface ProductDetailProps {
   id: string
@@ -47,6 +48,12 @@ export default function ProductDetail({ id }: ProductDetailProps) {
   })
 
 
+  const unitMap: Record<string, string> = {
+    "Jaggery": "/kg",
+    "Herbal Tea": "/30g",
+    "Cookies": "/200g",
+  };
+
 
   useEffect(() => {
     async function loadProduct() {
@@ -54,7 +61,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
         const productData = await data
         if (productData) {
           setProduct(productData)
-          setIsWishlisted(isInWishlist.some((item) => item.id === product?.id))
+          setIsWishlisted(isInWishlist.some((item) => item.ID === product?.ID))
         } else {
           toast.error("Product not found")
           router.push("/products")
@@ -113,7 +120,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
 
   const handleToggleWishlist = () => {
     if (isWishlisted) {
-      dispatch(removeFromWishlist(String(product.id)))
+      dispatch(removeFromWishlist(String(product.ID)))
       toast.success(`${product.name} removed from wishlist`)
     } else {
       addToWishlist(product)
@@ -217,7 +224,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
             </div>
 
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-[#6B4226]">{product.price}</span>
+              <span className="text-3xl font-bold text-[#6B4226]">{formatPrice(product?.price)} {unitMap[product?.Category[0]?.name] || ""}</span>
               {/* {product.originalPrice && (
                 <span className="text-lg text-[#8B5A2B] line-through">{product.originalPrice}</span>
               )} */}
