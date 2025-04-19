@@ -15,8 +15,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     const product = await getProductsById(Number(params?.id))
 
-    console.log("Product detail page: ", product);
-    
 
     if (!product) return <div>Product Not Found</div>
 
