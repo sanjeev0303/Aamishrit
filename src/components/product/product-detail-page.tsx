@@ -16,6 +16,9 @@ import ReviewSection from "./review-section"
 import { getProductsById } from "@/api/products"
 import { formatPrice } from "@/lib/utils"
 import { Product } from "@/types"
+import { addToWishlist } from "@/store/slices/wishlistSlice"
+import { useAppDispatch } from "@/store/store"
+import { addToCart } from "@/store/slices/cartSlice"
 
 interface ProductDetailPageProps {
     product: Product
@@ -23,6 +26,7 @@ interface ProductDetailPageProps {
 
 
 export default function ProductDetailPage({product} : ProductDetailPageProps) {
+    const dispatch = useAppDispatch()
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isInWishlist, setIsInWishlist] = useState(false)
@@ -96,26 +100,29 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
     setSelectedImage((prev) => (prev - 1 + (product.images?.length ?? 1)) % (product.images?.length ?? 1))
   }
 
-  const toggleWishlist = () => {
-    setIsInWishlist(!isInWishlist)
+  const handleToggleWishlist = () => {
+    setIsInWishlist((prev) => !prev)
+    dispatch(addToWishlist(product))
 
-    toast(!isInWishlist ? "Added to Wishlist" : "Removed from Wishlist", {
-      description: !isInWishlist
-        ? `${product.name} has been added to your wishlist.`
-        : `${product.name} has been removed from your wishlist.`,
+    toast(isInWishlist ? "Removed from Wishlist" : "Added to Wishlist", {
+      description: isInWishlist
+        ? `${product.name} has been removed from your wishlist.`
+        : `${product.name} has been added to your wishlist.`,
     })
   }
 
   const handleAddToCart = () => {
+    dispatch(addToCart(product ))
+
     toast.success("Added to Cart", {
       description: `${quantity} x ${product.name} has been added to your cart.`,
     })
   }
 
   return (
-    <div className="min-h-dvh bg-[#FDF7F0] font-serif text-[#6B4226]">
+    <div className="min-h-dvh bg-gradient-to-br from-brown-50 via-white to-brown-100 font-serif text-[#6B4226]">
   {/* Main Content */}
-  <main className="container mx-auto px-4 mt-16 pt-2">
+  <main className="container mx-auto px-4 lg:pt-14 pt-2">
     <div className="mb-8 flex items-center">
       <Link href="/products" className="flex items-center text-[#8B5A2B] hover:text-[#6B4226] transition-colors">
         <ArrowLeft className="h-5 w-5 mr-2" />
@@ -126,7 +133,7 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
     {/* Product Details - Main Section with 70/30 split */}
     <div className="flex flex-col lg:flex-row gap-10 mb-16">
       {/* Product Images - 70% width section */}
-      <div className="lg:w-[70%] space-y-6">
+      <div className="lg:w-[50%] space-y-6">
         <div className="relative rounded-2xl overflow-hidden border border-[#E6D5C1] shadow-sm h-[400px] md:h-[600px] bg-white">
           <Image
             src={(product.images?.[selectedImage] ?? "/placeholder.svg?height=600&width=600")}
@@ -181,7 +188,7 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
       </div>
 
       {/* Product Info - 30% width section with scrollable content */}
-      <div className="lg:w-[30%] space-y-8 max-h-[600px] overflow-y-auto pr-2 scrollbar-hide">
+      <div className="lg:w-[50%] space-y-8 max-h-[600px] overflow-y-auto pr-2 scrollbar-hide">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{product.name}</h1>
           <div className="flex items-center gap-2 mt-2">
@@ -212,7 +219,7 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
           )} */}
         </div>
 
-        <p className="text-[#8B5A2B] leading-relaxed">{product?.description}</p>
+        <p className="text-[#8B5A2B] leading-relaxed line-clamp-5 md:line-clamp-3">{product?.description}</p>
 
         <div className="flex items-center gap-4">
           <span className={`font-medium ${product?.stock > 0 ? "text-emerald-600" : "text-red-600"}`}>
@@ -266,7 +273,7 @@ export default function ProductDetailPage({product} : ProductDetailPageProps) {
                   ? "bg-[#6B4226] hover:bg-[#8B5A2B] text-white"
                   : "border-[#8B5A2B] text-[#8B5A2B] hover:bg-[#F8EFE3]"
               }
-              onClick={toggleWishlist}
+              onClick={handleToggleWishlist}
             >
               <Heart className={`h-5 w-5 mr-2 ${isInWishlist ? "fill-white" : ""}`} />
               {isInWishlist ? "In Wishlist" : "Add to Wishlist"}

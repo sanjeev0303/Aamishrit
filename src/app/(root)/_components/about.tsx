@@ -45,7 +45,7 @@ const AboutSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-16 px-4 md:px-8 bg-gradient-to-b from-brown-800 to-brown-600 text-brown-background w-full"
+      className="py-12 px-4 md:px-4 bg-gradient-to-b from-brown-800 to-brown-600 text-brown-background w-full"
     >
       <div className="container mx-auto">
         <motion.div
@@ -53,18 +53,18 @@ const AboutSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
         >
-          <h2 className="text-4xl font-extrabold tracking-wide text-brown-light uppercase mb-4">
+          <h2 className="text-4xl font-extrabold tracking-wide text-brown-light uppercase mb-3">
             About Our Products
           </h2>
-          <p className="text-center text-brown-100 max-w-2xl mx-auto text-lg">
+          <p className="text-center text-brown-100 max-w-4xl mx-auto text-lg">
             Learn more about our commitment to quality, sustainability, and the
             unique benefits of our organic products.
           </p>
         </motion.div>
 
-        <div className="space-y-20">
+        <div className="space-y-16">
           {categories.map((item, index) => (
             <div
               key={index}

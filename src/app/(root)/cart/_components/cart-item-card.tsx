@@ -32,7 +32,7 @@ const CartItemCard = ({
   return (
     <div
       key={item.ID}
-      className="p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 group bg-gradient-to-br from-brown-50 via-brown-100 to-brown-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 ring-1 ring-brown-300/30 backdrop-blur-sm"
+      className="px-6 py-2 sm:px-6 sm:py-2 flex flex-col sm:flex-row  sm:gap-8 group bg-gradient-to-br from-brown-50 via-brown-100 to-brown-200 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 ring-1 ring-brown-300/30 backdrop-blur-sm mt-4"
     >
       {/* Product Image */}
       <div className="relative h-28 w-28 sm:h-32 sm:w-32 flex-shrink-0 bg-brown-100 rounded-xl overflow-hidden shadow-lg group-hover:scale-105 transition-transform duration-300">
@@ -40,21 +40,21 @@ const CartItemCard = ({
           src={item.images[0] || "/placeholder.svg?height=96&width=96"}
           alt={item.name}
           fill
-          className="object-cover"
+          className="object-contain"
         />
       </div>
 
       {/* Product Info */}
       <div className="flex flex-col justify-between flex-grow">
         {/* Title + Price */}
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start flex-wrap gap-2">
           <Link
             href={`/products/${item.ID}`}
             className="font-semibold text-lg sm:text-xl text-brown-800 hover:text-brown-600 transition-colors"
           >
             {item.name}
           </Link>
-          <span className="text-brown-700 font-bold text-lg">
+          <span className="text-brown-700 font-bold text-lg whitespace-nowrap">
             {formatPrice(item.price * item.quantity)}
           </span>
         </div>
@@ -64,7 +64,7 @@ const CartItemCard = ({
         </p>
 
         {/* Quantity + Remove */}
-        <div className="flex justify-between items-center mt-6">
+        <div className="flex justify-between items-center mt-6 flex-wrap gap-4 sm:gap-0">
           {/* Quantity Controls */}
           <div className="flex items-center border border-brown-300 rounded-full overflow-hidden shadow-inner">
             <button
@@ -91,7 +91,7 @@ const CartItemCard = ({
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full text-brown-300 hover:text-red-600 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="rounded-full text-brown-600 hover:text-red-600 hover:bg-red-50 transition-opacity duration-300"
             onClick={() => handleRemoveItem(item.ID, item.name)}
           >
             <Trash2 className="h-4 w-4" />

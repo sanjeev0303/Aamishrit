@@ -10,9 +10,10 @@ const ShopSection = () => {
   // Fetch categories using the custom hook
   const { data: categories, isLoading } = useAllCategories();
 
-  console.log("shop categories: ", categories?.map((item) => console.log("category Id: ", item.ID)
-  ));
-
+  console.log(
+    "shop categories: ",
+    categories?.map((item) => console.log("category Id: ", item.ID))
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,7 +69,7 @@ const ShopSection = () => {
     return <p>No categories found.</p>;
 
   return (
-    <section id="categories" className="py-16 lg:px-16 px-2 md:px-8">
+    <section id="categories" className="pt-6 lg:px-16 px-2 md:px-8">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -77,8 +78,10 @@ const ShopSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 px-4"
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-brown-heading via-brown-600 to-brown-500 drop-shadow-sm mb-4">
-            Shop by Category
+          <h2 className="relative inline-block text-4xl md:text-5xl font-bold text-brown-700 mb-5">
+            <span className="bg-gradient-to-r from-brown-700 via-brown-700 to-brown-500 bg-clip-text text-transparent">
+              Shop by Category
+            </span>
           </h2>
 
           <div className="mx-auto h-1 w-16 bg-gradient-to-r from-brown-600 via-brown-heading to-brown-500 rounded-full mb-6" />

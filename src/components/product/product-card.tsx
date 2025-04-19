@@ -52,7 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   onClick={handleCardClick}
 >
   {/* Product Image Section */}
-  <div className="relative h-64 sm:h-72 lg:h-80 xl:h-96 w-full bg-brown-100 rounded-t-3xl overflow-hidden">
+  <div className="relative h-64 sm:h-72 lg:h-80 xl:h-96 w-full bg-white rounded-t-3xl overflow-hidden">
     <Image
       src={product.images[0] || "/placeholder.svg"}
       alt={product.name}

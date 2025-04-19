@@ -77,64 +77,81 @@ const WishlistPage = () => {
 
 
   return (
-    <div className="container mx-auto px-4 py-12 pt-16">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-brown-800">Your Wishlist</h1>
-        <Button
-          variant="outline"
-          className="text-brown-700 bg-brown-300 border-brown-800 hover:bg-brown-200 hover:text-brown-700"
-          onClick={handleClearWishlist}
-        >
-          Clear Wishlist
-        </Button>
-      </div>
+    <div className=" mx-auto px-4 py-12 pt-16 bg-gradient-to-br from-brown-50 via-white to-brown-100 rounded-2xl shadow-inner">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-12 border-b border-brown-200 pb-6">
+    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-brown-800 via-brown-700 to-brown-600 drop-shadow-sm bg-clip-text text-transparent text-center sm:text-left">
+      Your Wishlist
+    </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {wishlistItems.map((item) => (
-          <div key={item.ID} className="overflow-hidden">
-            <div className="relative bg-brown-200 rounded-lg overflow-hidden">
-              <Image
-                src={
-                  item.images && item.images.length > 0
-                    ? item.images[0]
-                    : "/placeholder.svg?height=300&width=300"
-                }
-                alt={item.name}
-                width={300}
-                height={200}
-                className="object-cover"
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-2 right-2 bg-brown-300 hover:bg-brown-200 rounded-full text-brown-700 hover:text-red-600"
-                onClick={() => handleRemoveItem(String(item.ID), item.name)}
-              >
-                <Trash2 className="h-5 w-5" />
-              </Button>
+    <Button
+      variant="outline"
+      className="w-full sm:w-auto text-brown-800 border border-brown-700 bg-brown-200 hover:bg-brown-100 hover:text-brown-800 transition-all px-5 py-2 rounded-full shadow-sm"
+      onClick={handleClearWishlist}
+    >
+      Clear Wishlist
+    </Button>
+  </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      {wishlistItems.map((item) => (
+        <div key={item.ID} className="overflow-hidden rounded-2xl shadow-md bg-brown-100 backdrop-blur-md border border-brown-100 transition-all duration-300 hover:shadow-lg">
+         <Link href={`/products/${item.ID}`}>
+         <div className="relative bg-white rounded-t-2xl overflow-hidden">
+            <Image
+              src={
+                item.images && item.images.length > 0
+                  ? item.images[0]
+                  : "/placeholder.svg?height=300&width=300"
+              }
+              alt={item.name}
+              width={300}
+              height={200}
+              className="object-contain transition-transform duration-300 hover:scale-105"
+            />
+            <div className="absolute top-2 right-2 flex flex-col gap-2 items-center">
+
+            <button
+                  onClick={() => handleAddToCart(item)}
+                  className="w-9 h-9 bg-brown-300 hover:bg-brown-200 text-brown-800 flex items-center justify-center rounded-full shadow transition-colors"
+                >
+                  <ShoppingCart className="h-5 w-5 p-[2px]" />
+                </button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className=" bg-brown-200 hover:bg-brown-100 rounded-full text-brown-800 hover:text-red-600 shadow"
+              onClick={() => handleRemoveItem(String(item.ID), item.name)}
+            >
+              <Trash2 className="h-5 w-5" />
+            </Button>
             </div>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                <Link
-                href={`/products/${item.ID}}`}
-                className="font-medium hover:underline"
-              >
-                {item.name}
-              </Link>
-              <div className="mt-2 font-bold">{formatPrice(item.price)}</div>
-                </div>
-                <div>
-                <div className="w-10 h-10 bg-brown-300 text-brown-700 hover:bg-brown-200 flex items-center justify-center rounded-full" onClick={() => handleAddToCart(item)}>
-                <ShoppingCart className="h-6 w-6 p-[2px]" />
-              </div>
-                </div>
-              </div>
-            </CardContent>
           </div>
-        ))}
-      </div>
+         </Link>
+
+          <CardContent className="px-5 py-3 space-y-2">
+            <div className="flex items-start justify-between">
+              <div>
+                <Link
+                  href={`/products/${item.ID}`}
+                  className="font-semibold text-brown-800 hover:underline text-lg"
+                >
+                  {item.name}
+                </Link>
+                <div className="mt-1 font-bold text-brown-700">
+                  {formatPrice(item.price)}
+                </div>
+              </div>
+              <div>
+
+              </div>
+            </div>
+          </CardContent>
+        </div>
+      ))}
     </div>
+  </div>
+
   );
 };
 

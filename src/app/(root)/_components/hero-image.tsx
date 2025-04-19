@@ -23,51 +23,55 @@ const HeroImage = () => {
 
   return (
     <Suspense
-      fallback={
-        <div className="flex items-center justify-center w-full h-screen bg-brown-900">
-          <Loader2 className="animate-spin text-white" />
-        </div>
-      }
+    fallback={
+      <div className="flex items-center justify-center w-full h-screen bg-brown-900">
+        <Loader2 className="animate-spin text-white" />
+      </div>
+    }
+  >
+    <motion.div
+      ref={imageRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="w-full lg:min-h-screen md:h-[75vh] max-sm:h-[40vh] relative overflow-hidden select-none bg-brown-900"
     >
       <motion.div
-        ref={imageRef}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="w-full lg:min-h-screen md:h-[75vh] max-sm:h-[40vh] relative overflow-hidden select-none bg-brown-900"
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.2 }}
+        className="w-full h-full"
       >
-        <motion.div
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.2 }}
-          className="w-full h-full"
-        >
-          <Image
-            src="/Background.jpg"
-            alt="hero-image"
-            width={1500}
-            height={1000}
-            priority
-            className="object-cover w-full h-full max-sm:h-[40vh] bg-brown-900"
-          />
-        </motion.div>
-
-        {/* Gradient Overlay */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="absolute bottom-0 left-0 right-0 p-6 md:p-12 bg-gradient-to-t from-brown-900/80 via-brown-700/40 to-transparent text-white"
-        >
-          <h1 className="text-4xl md:text-6xl font-serif font-bold text-brown-50 drop-shadow-md">
-            Aamishrit
-          </h1>
-          <p className="text-lg md:text-xl mt-2 text-brown-100 max-w-2xl leading-relaxed drop-shadow">
-            Purity you taste, Quality you can trust.
-          </p>
-        </motion.div>
+        <Image
+          src="/Background-1.jpg"
+          alt="hero-image"
+          width={1500}
+          height={1000}
+          priority
+          className="object-cover w-full h-full max-sm:h-[40vh] bg-brown-900"
+        />
       </motion.div>
-    </Suspense>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black opacity-30"></div>
+
+      {/* Gradient Overlay */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="absolute flex items-center flex-col lg:bottom-28 max-sm:bottom-5 md:bottom-28 left-0 right-0 p-6   text-white"
+      >
+        <h1 className="text-4xl md:text-7xl lg:text-9xl font-serif font-bold text-brown-50 drop-shadow-md text-center">
+          Aamishrit
+        </h1>
+        <p className="text-lg md:text-2xl lg:text-3xl mt-2 text-brown-100 max-w-2xl leading-relaxed drop-shadow text-center font-semibold">
+          Purity you taste, Quality you can trust.
+        </p>
+      </motion.div>
+    </motion.div>
+  </Suspense>
+
   );
 };
 

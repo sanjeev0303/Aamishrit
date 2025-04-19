@@ -5,22 +5,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, Heart, ShoppingCart } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { useAppDispatch } from "@/store/store";
 import { addToCart, openCart } from "@/store/slices/cartSlice";
 import { toast } from "sonner";
+import { addToWishlist } from "@/store/slices/wishlistSlice";
+import { Product } from "@/types";
 
 const ProductShowcase = () => {
   const { products, loading, error } = useProducts();
   const [categories, setCategories] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const [wishlist, setWishlist] = useState<Record<number, boolean>>({});
 
-  console.log("Products: ", products ?? "No category available");
-  if (products.length > 0) {
-    products.forEach((product) => {
-      console.log("Category Name:", product.Category ?? "No category");
-    });
-  }
   if (error)
     return <div className="text-center py-20 text-red-600">Error: {error}</div>;
 
@@ -94,21 +91,52 @@ const ProductShowcase = () => {
     );
   }
 
+  const handleAddToCart = (
+    e: React.MouseEvent,
+    product: Product // ensure this type is correct
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(addToCart(product));
+    dispatch(openCart());
+    toast.success(`${product.name} added to cart`);
+  };
+
+  const handleAddToWishlist = (e: React.MouseEvent, product: Product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const isWishlisted = wishlist[product.ID] ?? false;
+
+    dispatch(addToWishlist(product));
+
+    setWishlist((prev) => ({
+      ...prev,
+      [product.ID]: !isWishlisted,
+    }));
+
+    toast.success(
+      !isWishlisted
+        ? `${product.name} added to wishlist`
+        : `${product.name} removed from wishlist`
+    );
+  };
+
   return (
-    <section className="py-16 px-4 md:px-8 lg:px-16">
+    <section className="py-14 max-sm:py-10 px-2 md:px-8 lg:px-24">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16 px-4"
+          className="text-center mb-10 px-4"
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-brown-heading via-brown-700 to-brown-500 drop-shadow-sm mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-brown-800  to-brown-600 drop-shadow-sm mb-4">
             Our Products
           </h2>
 
-          <div className="mx-auto h-1 w-16 bg-gradient-to-r from-brown-500 via-brown-heading to-brown-500 rounded-full mb-6" />
+          <div className="mx-auto h-1 w-16  bg-gradient-to-r from-brown-500 via-brown-heading to-brown-500 rounded-full mb-6 max-sm:mb-2" />
 
           <p className="text-lg md:text-xl text-brown-text/80 max-w-2xl mx-auto leading-relaxed">
             Discover our collection of premium organic products, carefully
@@ -123,7 +151,7 @@ const ProductShowcase = () => {
             </p>
           </div>
         ) : (
-          <div className="space-y-16">
+          <div className="space-y-10">
             {categories.map((category) => {
               const categoryProducts = products.filter(
                 (product) => product.Category[0]?.name === category
@@ -133,13 +161,13 @@ const ProductShowcase = () => {
                 return null;
               }
 
-              const handleAddToCart = (e: React.MouseEvent) => {
-                e.preventDefault();
-                e.stopPropagation();
-                dispatch(addToCart(products[0]));
-                dispatch(openCart());
-                toast.success(`${products[0].name} added to cart`);
-              };
+              //   const handleAddToCart = (e: React.MouseEvent) => {
+              //     e.preventDefault();
+              //     e.stopPropagation();
+              //     dispatch(addToCart(products[0]));
+              //     dispatch(openCart());
+              //     toast.success(`${products[0].name} added to cart`);
+              //   };
 
               return (
                 <div key={category} className="space-y-6">
@@ -161,17 +189,16 @@ const ProductShowcase = () => {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                   >
                     {categoryProducts.map((product) => (
                       <motion.div
                         key={product.ID}
                         variants={itemVariants}
                         whileHover={{ y: -4 }}
-                        className="bg-white/60 backdrop-blur-md border border-brown-200 rounded-3xl shadow-lg transition-all duration-300 hover:shadow-xl group overflow-hidden
-    w-full sm:max-w-[97%] md:max-w-[90%] mx-auto"
+                        className="bg-white/60 backdrop-blur-md border border-brown-200 rounded-3xl shadow-lg transition-all duration-300 hover:shadow-xl group overflow-hidden w-full sm:max-w-[98%] md:max-w-[90%] mx-auto"
                       >
-                        <div className="relative h-64 sm:h-72 lg:h-80 xl:h-96 overflow-hidden bg-brown-50">
+                        <div className="relative h-64 sm:h-72 lg:h-80 xl:h-96 overflow-hidden bg-white">
                           <Link href={`/products/${product.ID}`}>
                             <Image
                               src={product.images?.[0] || "/placeholder.svg"}
@@ -187,7 +214,7 @@ const ProductShowcase = () => {
                               variant="ghost"
                               size="icon"
                               className="bg-white/70 hover:bg-white rounded-full shadow backdrop-blur-sm"
-                              onClick={handleAddToCart}
+                              onClick={(e) => handleAddToCart(e, product)} // pass product explicitly
                             >
                               <ShoppingCart className="w-5 h-5 text-brown-700" />
                             </Button>
@@ -195,9 +222,14 @@ const ProductShowcase = () => {
                               variant="ghost"
                               size="icon"
                               className="bg-white/70 hover:bg-white rounded-full shadow backdrop-blur-sm"
-                              onClick={handleAddToCart}
+                              onClick={(e) => handleAddToWishlist(e, product)}
                             >
-                              <Heart className="w-5 h-5 text-brown-700" />
+                              <Heart
+                                className={cn(
+                                  "w-5 h-5 text-brown-700",
+                                  wishlist[product.ID] && "text-rose-600"
+                                )}
+                              />
                             </Button>
                           </div>
                         </div>
