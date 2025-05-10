@@ -121,7 +121,7 @@ const ShopSection = () => {
                   {category.description || "No description available"}
                 </p>
 
-                <Link href={`/categories/${category.ID}}`}>
+                <Link href={`/categories/${category.ID}`}>
                   <Button className="w-full bg-brown-800 text-white hover:bg-brown-900 transition duration-300 ease-in-out rounded-full font-semibold tracking-wide shadow-md hover:shadow-lg">
                     Browse {category.name}
                   </Button>
