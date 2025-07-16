@@ -11,7 +11,7 @@ const categories = [
     name: "Jaggery",
     description: "Natural sweeteners with rich nutrients",
     image:
-      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744867131/Aamishrit%20Products/pk438cgnfbhfudf2xznt.jpg",
+      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744958297/Aamishrit%20Product%20Catalogue%283%29.png",
     link: "/category/jaggery",
   },
   {
@@ -19,7 +19,7 @@ const categories = [
     name: "Herbal Tea",
     description: "Soothing blends for wellness and relaxation",
     image:
-      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744867159/Aamishrit%20Products/qpxqfxejqb3gtpcmok5u.jpg",
+      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744958336/Aamishrit%20Product%20Catalogue%284%29.png",
     link: "/category/herbal-tea",
   },
   {
@@ -27,7 +27,7 @@ const categories = [
     name: "Cookies",
     description: "Artisanal treats made with organic ingredients",
     image:
-      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744867132/Aamishrit%20Products/scno9q4ojlggniqgmxyh.jpg",
+      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744958796/Aamishrit%20Product%20Catalogue%2814%29.png",
     link: "/category/cookies",
   },
 ];
@@ -87,8 +87,9 @@ const ShopSection = () => {
                   src={category.image || "/placeholder.svg"}
                   alt={category.name}
                   fill
-                  className="object-cover transition-transform duration-500"
+                  className="object-contain transition-transform duration-500"
                 />
+                <div className="absolute inset-0 bg-black bg-opacity-50  opacity-0 hover:opacity-5 transition-opacity duration-300"></div>
               </div>
               <div className="p-6 flex flex-col flex-grow bg-brown-300/50">
                 <h3 className="text-2xl font-semibold text-brown-800/90 mb-2">

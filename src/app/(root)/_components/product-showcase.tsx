@@ -39,23 +39,12 @@ const sampleProducts = [
   },
   {
     id: 4,
-    name: "Jaggery Cubes",
-    category: "jaggery",
-    description: "Convenient cubes of pure, unrefined sweetness",
-    price: 8.49,
-    image:
-      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744867164/Aamishrit%20Products/bwcmvsflossebovalzi9.jpg",
-    isNew: false,
-    isBestseller: true,
-  },
-  {
-    id: 5,
     name: "Jaggery Powder",
     category: "jaggery",
     description: "Fine powder for easy mixing in recipes",
     price: 9.99,
     image:
-      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744867153/Aamishrit%20Products/pwgzyohqkh9kxomybmxn.jpg",
+      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744952223/bym56pukpsozcjx9n4wn.png",
     isNew: false,
     isBestseller: false,
   },
@@ -71,8 +60,21 @@ const sampleProducts = [
     isBestseller: false,
   },
   {
+    id: 5,
+    name: "Jaggery ",
+    category: "jaggery",
+    description: "Convenient cubes of pure, unrefined sweetness",
+    price: 8.49,
+    image:
+      "https://res.cloudinary.com/df0nvtma5/image/upload/v1744867164/Aamishrit%20Products/bwcmvsflossebovalzi9.jpg",
+    isNew: false,
+    isBestseller: true,
+  },
+
+
+  {
     id: 7,
-    name: "Millet Cookies",
+    name: "Multi Millet Cookies",
     category: "cookies",
     description: "Nutritious cookies made with ancient grains",
     price: 6.99,
@@ -83,7 +85,7 @@ const sampleProducts = [
   },
   {
     id: 8,
-    name: "Hemp Cookies",
+    name: "Hemp Seed Cookies",
     category: "cookies",
     description: "Protein-rich cookies with organic hemp seeds",
     price: 7.49,

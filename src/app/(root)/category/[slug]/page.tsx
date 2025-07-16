@@ -49,7 +49,7 @@ const { slug } = params
       <div className="w-full">
         <div className="bg-white rounded-lg shadow overflow-hidden mb-8">
           {category.productImages && (
-            <div className="relative h-48 md:h-64 w-full">
+            <div className="relative lg:h-110 md:h-64 h-50 w-full">
               <Image
                 src={category.productImages[0] || "/placeholder.svg?height=300&width=800" || "/placeholder.svg"}
                 alt={category.name}

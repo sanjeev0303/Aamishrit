@@ -5,8 +5,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, ChevronRight } from "lucide-react";
+import { ShoppingCart, ChevronRight, Heart } from "lucide-react";
 import Link from "next/link";
+import { useAppDispatch } from "@/react-redux/store";
+import { addToCart, openCart } from "@/react-redux/slices/cartSlice";
+import { toast } from "sonner";
 
 // Product interface based on the provided types
 interface Product {
@@ -33,6 +36,8 @@ const ProductCategoryShowcase = ({
   const [products, setProducts] = useState<Product[]>(initialProducts || []);
   const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(isLoading);
+
+  const dispatch = useAppDispatch()
 
   // Fetch products if not provided as props
   useEffect(() => {
@@ -115,6 +120,14 @@ const ProductCategoryShowcase = ({
     );
   }
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    dispatch(addToCart(products[0]))
+    dispatch(openCart())
+    toast.success(`${products[0].name} added to cart`)
+  }
+
   return (
     <section className="py-16 px-4 md:px-8">
       <div className="container mx-auto">
@@ -177,15 +190,16 @@ const ProductCategoryShowcase = ({
                         key={product.id}
                         variants={itemVariants}
                         whileHover={{ y: -5 }}
-                        className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300"
+                        className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 hover:group"
                       >
-                        <div className="relative aspect-square overflow-hidden">
+                        <div className="relative aspect-square overflow-hidden ">
                           <Image
                             src={product.image || "/placeholder.svg"}
                             alt={product.name}
                             fill
                             className="object-cover transition-transform duration-500 hover:scale-105"
                           />
+                          <div className="absolute inset-0 bg-black bg-opacity-50  opacity-0 hover:opacity-3 transition-opacity duration-300"></div>
                           {product.isNew && (
                             <div className="absolute top-2 left-2">
                               <Badge className="bg-brown-600 text-white">
@@ -194,33 +208,45 @@ const ProductCategoryShowcase = ({
                             </div>
                           )}
                           {product.isBestseller && (
-                            <div className="absolute top-2 right-2">
+                            <div className="absolute top-2 left-2">
                               <Badge className="bg-brown-700/80 text-white">
                                 Bestseller
                               </Badge>
                             </div>
                           )}
-                        </div>
-                        <div className="p-4">
-                          <h4 className="text-lg font-semibold text-brown-text mb-2 line-clamp-1">
-                            {product.name}
-                          </h4>
-                          {product.description && (
-                            <p className="text-sm text-brown-text/70 mb-3 line-clamp-2">
-                              {product.description}
-                            </p>
-                          )}
-                          <div className="flex justify-between items-center mt-2">
-                            <span className="text-lg font-bold text-brown-700">
-                              {formatPrice(product.price)}
-                            </span>
-                            <Button
-                              variant="outline"
+                         <div className="absolute top-2 right-2 flex flex-col items-center">
+                         <Button
+                              variant="ghost"
                               size="sm"
-                              className="text-brown-700 bg-brown-300 hover:bg-brown-200 hover:text-brown-800 rounded-full"
+                              className="text-brown-700 hover:bg-transparent hover:text-brown-900"
+                              onClick={() => handleAddToCart}
                             >
                               <ShoppingCart className="w-4 h-4" />
                             </Button>
+                         <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-brown-700 hover:bg-transparent hover:text-brown-900"
+                              onClick={() => handleAddToCart}
+                            >
+                              <Heart className="w-4 h-4" />
+                            </Button>
+                            </div>
+                        </div>
+                        <div className="px-4 py-1">
+                          <h4 className="text-lg font-semibold text-brown-text  line-clamp-1 leading-tight">
+                            {product.name}
+                          </h4>
+                          {product.description && (
+                            <p className="text-sm text-brown-text/70  line-clamp-2">
+                              {product.description}
+                            </p>
+                          )}
+                          <div className="flex justify-between items-center mt-1 ">
+                            <span className="text-lg font-bold text-brown-700">
+                              {formatPrice(product.price)}
+                            </span>
+
                           </div>
                         </div>
                       </motion.div>

@@ -34,7 +34,7 @@ export interface Product {
     comment: string
   }
 
-  export interface Address {
+  export interface UserAddress {
     id: string
     fullName: string
     addressLine1: string
@@ -100,4 +100,18 @@ export interface OrderItem {
     total: number
     status: string
     createdAt: string
+  }
+
+  export type NewUser = {
+    name: string;
+    email?: string; // if you're capturing this
+  };
+
+
+  export interface Category {
+    name: string;
+    slug: string;
+    description?: string;
+    images: string[];
+    products: Product[];
   }
